@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MextFullstackSaas.Domain.Identity
+namespace MextFullstackSaas.Domain.Entities
 {
-    public class UserBalanceHistory:EntityBase<Guid>
+    public class UserBalanceHistory : EntityBase<Guid>
     {
         public Guid UserBalanceId { get; set; }
         public UserBalance UserBalance { get; set; }
