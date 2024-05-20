@@ -1,4 +1,5 @@
 ﻿using MextFullstackSaas.Domain.Common;
+using MextFullstackSaas.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace MextFullstackSaas.Domain.Identity
         public string CreatedByUserId { get; set; }
         public DateTimeOffset? ModifiedOn { get; set; }
         public string? ModifiedByUserId { get; set; }
+
+        public ICollection<Order> Orders { get; set; }
 
         //User.Balance.Credits=>0
     }

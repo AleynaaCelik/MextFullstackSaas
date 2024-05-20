@@ -22,5 +22,7 @@ namespace MextFullstackSaas.Domain.Entities
         public IconShape Shape { get; set; }
         public int Quantity { get; set; }
 
+        public List<string> Urls { get; set; }=new List<string>();
+
     }
 }
