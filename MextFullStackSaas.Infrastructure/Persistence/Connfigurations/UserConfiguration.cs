@@ -1,3 +1,4 @@
+using MextFullstackSaas.Domain.Entities;
 using MextFullstackSaas.Domain.Identity;
 using MextFullstackSaaS.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -50,21 +51,21 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             // Each User can have many entries in the UserRole join table
             builder.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
-            // Each User can have many Addresses
-            //builder.HasMany<Address>().WithOne().HasForeignKey(x => x.UserId).IsRequired();
+            // Each User can have many Orders
+            builder.HasMany<Order>(x=>x.Orders).WithOne(o=>o.User).HasForeignKey(x => x.UserId);
 
             // CreatedDate
             builder.Property(x => x.CreatedOn).IsRequired();
-            
+
             // CreatedByUserId
-            builder.Property(user => user.CreatedByUserId).IsRequired(false);
-            
+            builder.Property(user => user.CreatedByUserId).HasMaxLength(100).IsRequired();
+
             // ModifiedDate
             builder.Property(user => user.ModifiedOn).IsRequired(false);
-            
+
             // ModifiedByUserId
-            builder.Property(user => user.ModifiedByUserId).IsRequired(false);
-            
+            builder.Property(user => user.ModifiedByUserId).HasMaxLength(100).IsRequired(false);
+
 
             builder.ToTable("Users");
         }

@@ -50,8 +50,21 @@ namespace MextFullStackSaas.Infrastructure.Persistence.Connfigurations
                         c => c.ToList()));
 
 
+            //CommonProperties
+            // CreatedDate
+            builder.Property(x => x.CreatedOn).IsRequired();
+
+            // CreatedByUserId
+            builder.Property(user => user.CreatedByUserId).HasMaxLength(100).IsRequired();
+
+            // ModifiedDate
+            builder.Property(user => user.ModifiedOn).IsRequired(false);
+
+            // ModifiedByUserId
+            builder.Property(user => user.ModifiedByUserId).HasMaxLength(100).IsRequired(false);
+
             //RelationShip
-            builder.HasOne<User>(x => x.User).WithMany(u => u.Orders).HasForeignKey(x => x.UserId);
+            //builder.HasOne<User>(x => x.User).WithMany(u => u.Orders).HasForeignKey(x => x.UserId);
 
             builder.ToTable("Orders");
 
