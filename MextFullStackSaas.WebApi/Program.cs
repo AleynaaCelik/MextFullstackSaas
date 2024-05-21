@@ -1,3 +1,5 @@
+using MextFullStackSaas.Infrastructure; // Doðru namespace'i ekleyin
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddInfrastructure(builder.Configuration); // IConfiguration nesnesini geçirin
 
 var app = builder.Build();
 

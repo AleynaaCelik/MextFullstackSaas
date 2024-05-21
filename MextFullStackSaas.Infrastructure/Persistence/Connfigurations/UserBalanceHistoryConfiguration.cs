@@ -46,7 +46,7 @@ namespace MextFullStackSaas.Infrastructure.Persistence.Connfigurations
             //RelationShip
             //builder.HasOne<User>(x => x.User).WithMany(u => u.Orders).HasForeignKey(x => x.UserId);
 
-            builder.HasMany<UserBalanceHistory>(x => x.Histories).WithOne(h => h.UserBalance).HasForeignKey(h => h.UserBalanceId);
+            
 
             builder.ToTable("UserBalanceHistories");
 

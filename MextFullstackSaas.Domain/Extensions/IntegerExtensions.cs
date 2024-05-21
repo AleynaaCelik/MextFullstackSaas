@@ -10,6 +10,9 @@ namespace MextFullstackSaas.Domain.Extensions
     {
         //Extensions methodlarını oluşturmak için static olmalı 
 
-
+        public static bool IsEven(this int number)
+        {
+            return number % 2 == 0;
+        }
     }
 }
