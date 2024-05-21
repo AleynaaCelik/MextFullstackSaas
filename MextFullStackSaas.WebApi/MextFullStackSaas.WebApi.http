@@ -1,0 +1,6 @@
+@MextFullStackSaas.WebApi_HostAddress = http://localhost:5086
+
+GET {{MextFullStackSaas.WebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
