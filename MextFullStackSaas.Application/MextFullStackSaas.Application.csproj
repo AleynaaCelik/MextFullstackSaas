@@ -15,7 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Features\" />
+    <Folder Include="Features\Orders\Commands\Add\" />
+    <Folder Include="Features\Orders\Queries\GetAll\" />
   </ItemGroup>
 
 </Project>

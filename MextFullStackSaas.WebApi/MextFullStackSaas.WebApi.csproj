@@ -18,8 +18,4 @@
     <ProjectReference Include="..\MextFullStackSaas.Infrastructure\MextFullStackSaas.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>
