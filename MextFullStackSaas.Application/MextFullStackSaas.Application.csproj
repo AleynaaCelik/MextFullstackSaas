@@ -14,4 +14,8 @@
     <ProjectReference Include="..\MextFullstackSaas.Domain\MextFullstackSaas.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Features\" />
+  </ItemGroup>
+
 </Project>

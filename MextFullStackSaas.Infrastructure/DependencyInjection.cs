@@ -14,7 +14,7 @@ namespace MextFullStackSaas.Infrastructure
                 container => container.GetRequiredService<ApplicationDbContext>());
 
             services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("PostgreSQL")));
+                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             return services;
         }
