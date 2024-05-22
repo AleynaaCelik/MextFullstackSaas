@@ -1,4 +1,6 @@
 ﻿using FluentValidation;
+using MextFullstackSaas.Domain.Enums;
+using MextFullStackSaas.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +11,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 {
     public class OrderAddCommandValidator:AbstractValidator<OrderAddCommand>
     {
+        private readonly ICurrentUserService _currentUserService;
         public OrderAddCommandValidator()
        {
             RuleFor(x=>x.IconDescription).NotEmpty().MaximumLength(200).WithMessage("The Icon dscription must be less then 200 characters");
@@ -25,6 +28,13 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 
             RuleFor(x => x.Quantity).GreaterThan(0).LessThanOrEqualTo(0).WithMessage("PLease selecet a valid quantity");
 
+
+            RuleFor(x => x.Size).Must(IsUserIdValid).WithMessage("You need to be logged-in to place an order");
         }
+
+        private bool IsUserIdValid(IconSize Size) => _currentUserService.UserId != Guid.Empty;
+        
+            
+        
     }
 }

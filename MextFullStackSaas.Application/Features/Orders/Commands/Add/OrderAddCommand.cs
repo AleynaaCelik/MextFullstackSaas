@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 {
-    public class OrderAddCommand:IRequest<Response<Guid>>
+    public class OrderAddCommand:IRequest<ResponseDto<Guid>>
     {
         public string IconDescription { get; set; }
         public string ColourCode { get; set; }

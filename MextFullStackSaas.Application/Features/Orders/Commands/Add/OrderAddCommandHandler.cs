@@ -9,19 +9,23 @@ using System.Threading.Tasks;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 {
-    public class OrderAddCommandHandler : IRequestHandler<OrderAddCommand, Response<Guid>>
+    public class OrderAddCommandHandler : IRequestHandler<OrderAddCommand, ResponseDto<Guid>>
     {
         private readonly IApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        public OrderAddCommandHandler(IApplicationDbContext dbContext)
+        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
             _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
 
-        public async Task<Response<Guid>> Handle(OrderAddCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<Guid>> Handle(OrderAddCommand request, CancellationToken cancellationToken)
         {
            var order=OrderAddCommand.MapToOrder
                 (request);
+
+            order.CreatedByUserId = _currentUserService.UserId.ToString();
 
             //TODO:Make Request to the Gemine or Dal-e-3
 
@@ -29,7 +33,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new Response<Guid>(order.Id, "Your order completed successfully");
+            return new ResponseDto<Guid>(order.Id, "Your order completed successfully");
         }
     }
 }

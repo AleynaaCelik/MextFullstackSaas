@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace MextFullstackSaas.Domain.Common
 {
-    public class Response<T>
+    public class ResponseDto<T>
     {
-        public Response(T data)
+        public ResponseDto(T data)
         {
             Succeeded = true;
             Message = string.Empty;
@@ -16,7 +16,7 @@ namespace MextFullstackSaas.Domain.Common
             Data = data;
         }
 
-        public Response(T data,string message)
+        public ResponseDto(T data,string message)
         {
             Succeeded = true;
             Message = message;
@@ -24,7 +24,7 @@ namespace MextFullstackSaas.Domain.Common
             Data = data;
         }
 
-        public Response(string message,bool succeeded)
+        public ResponseDto(string message,bool succeeded)
         {
             Succeeded = succeeded;
             Message = message;
