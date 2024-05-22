@@ -1,4 +1,5 @@
-﻿using MextFullstackSaaS.Domain.Identity;
+﻿using MextFullstackSaas.Domain.Identity;
+using MextFullstackSaaS.Domain.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
