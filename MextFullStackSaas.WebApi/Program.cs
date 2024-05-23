@@ -9,6 +9,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddInfrastructure(builder.Configuration); // IConfiguration nesnesini geçirin
 
 var app = builder.Build();
