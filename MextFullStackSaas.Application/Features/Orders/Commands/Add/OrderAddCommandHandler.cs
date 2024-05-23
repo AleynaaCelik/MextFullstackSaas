@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using MextFullstackSaas.Domain.Common;
+using MextFullstackSaaS.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -24,7 +25,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
         {
            var order=OrderAddCommand.MapToOrder
                 (request);
-
+            order.UserId = _currentUserService.UserId;
             order.CreatedByUserId = _currentUserService.UserId.ToString();
 
             //TODO:Make Request to the Gemine or Dal-e-3

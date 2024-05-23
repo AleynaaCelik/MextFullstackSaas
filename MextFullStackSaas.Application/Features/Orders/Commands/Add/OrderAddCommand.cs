@@ -2,6 +2,7 @@
 using MextFullstackSaas.Domain.Common;
 using MextFullstackSaas.Domain.Entities;
 using MextFullstackSaas.Domain.Enums;
+using MextFullstackSaaS.Application.Common.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
