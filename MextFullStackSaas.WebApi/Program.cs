@@ -1,4 +1,6 @@
-using MextFullStackSaas.Infrastructure; // Doðru namespace'i ekleyin
+using MextFullStackSaas.Application.Common.Interfaces;
+using MextFullStackSaas.Infrastructure;
+using MextFullStackSaas.WebApi.Services; // Doðru namespace'i ekleyin
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddHttpContextAccessor();
+
 
 builder.Services.AddInfrastructure(builder.Configuration); // IConfiguration nesnesini geçirin
 
