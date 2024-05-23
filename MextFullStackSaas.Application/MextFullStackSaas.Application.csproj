@@ -15,8 +15,4 @@
     <ProjectReference Include="..\MextFullstackSaas.Domain\MextFullstackSaas.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\Orders\Queries\GetAll\" />
-  </ItemGroup>
-
 </Project>
