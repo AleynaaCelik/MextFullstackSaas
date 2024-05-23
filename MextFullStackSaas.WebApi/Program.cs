@@ -1,6 +1,8 @@
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Infrastructure;
-using MextFullStackSaas.WebApi.Services; // Doðru namespace'i ekleyin
+using MextFullStackSaas.WebApi;
+using MextFullStackSaas.WebApi.Services;
+using Microsoft.Extensions.DependencyInjection; // Doðru namespace'i ekleyin
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +16,8 @@ builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddInfrastructure(builder.Configuration); // IConfiguration nesnesini geçirin
+
+builder.Services.AddWebServices(builder.Configuration);
 
 var app = builder.Build();
 
