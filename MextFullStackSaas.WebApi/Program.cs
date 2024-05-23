@@ -1,3 +1,4 @@
+using MextFullStackSaas.Application;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Infrastructure;
 using MextFullStackSaas.WebApi;
@@ -13,7 +14,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddApplication();
 
 builder.Services.AddInfrastructure(builder.Configuration); // IConfiguration nesnesini geçirin
 
