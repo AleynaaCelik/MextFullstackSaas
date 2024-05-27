@@ -8,5 +8,6 @@ namespace MextFullStackSaas.Application.Common.Interfaces
     {
         Task<UserAuthRegisterResponseDto>RegisterAsync(UserAuthRegisterCommand command,CancellationToken cancellationToken);
         Task<JwtDto>SignInAsync(UserAuthRegisterCommand command,CancellationToken cancellationToken);
+        Task<bool> IsEmailExistAsync(string email, CancellationToken cancellationToken);
     }
 }

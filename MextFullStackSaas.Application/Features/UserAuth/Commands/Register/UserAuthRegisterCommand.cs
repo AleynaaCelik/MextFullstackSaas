@@ -31,7 +31,7 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
                 Email = command.Email,
                 UserName = command.FirstName,
                 LastName = command.LastName,
-                CreatedOn = DateTimeOffset.Now,
+                CreatedOn = DateTimeOffset.UtcNow,
                 CreatedByUserId = id.ToString(),
                 EmailConfirmed = true,
                 Balance = new UserBalance()
@@ -39,7 +39,7 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
                     Id = Guid.NewGuid(),
                     Credits = 10,
                     UserId = id,
-                    CreatedOn = DateTimeOffset.Now,
+                    CreatedOn = DateTimeOffset.UtcNow,
                     CreatedByUserId = id.ToString(),
                 }
             };
