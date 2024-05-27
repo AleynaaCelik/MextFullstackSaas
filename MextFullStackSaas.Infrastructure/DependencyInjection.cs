@@ -1,6 +1,9 @@
-﻿using MextFullstackSaas.Domain.Settings;
+﻿using MextFullstackSaas.Domain.Identity;
+using MextFullstackSaas.Domain.Settings;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Infrastructure.Persistence.Contexts;
+using MextFullStackSaas.Infrastructure.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,23 @@ namespace MextFullStackSaas.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<JwtSettings>(JwtSettings=>configuration.GetSection("JwtSettings").Bind(JwtSettings));
+            services.AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+
+
+                options.User.RequireUniqueEmail = true;
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+            //Dependency Inversion
+            services.AddScoped<IJwtService, JwtManager>();
+            services.AddScoped<IIdentityService, IdentityManager>();
+
             return services;
         }
     }
