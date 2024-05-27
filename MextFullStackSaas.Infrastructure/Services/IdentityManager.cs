@@ -2,6 +2,7 @@
 using MextFullstackSaas.Domain.Identity;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models;
+using MextFullStackSaas.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.SignalR;
@@ -19,7 +20,7 @@ namespace MextFullStackSaas.Infrastructure.Services
         private readonly UserManager<User> _userManager;
 
 
-        public async Task<JwtDto> RegisterAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
+        public async Task<UserAuthRegisterResponseDto> RegisterAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
         {
             var user = UserAuthRegisterCommand.ToUser(command);
             var result = await _userManager.CreateAsync(user, command.Password);
@@ -27,7 +28,8 @@ namespace MextFullStackSaas.Infrastructure.Services
             {
                 throw new Exception("User registration failded");
             }
-            return await _jwtService.GenerateTokenAsync(user.Id, user.Email, cancellationToken);
+            return new UserAuthRegisterResponseDto(user.Id, user.Email);
+            //Register işleminin bi işi olmalı kullanıc kayıt edecek tek mettotta jwt token ile kullanıcı kaydını yapma ayrı ayrı tut
         }
 
         public Task<JwtDto> SignInAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
