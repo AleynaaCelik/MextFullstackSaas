@@ -21,25 +21,7 @@ namespace MextFullStackSaas.Infrastructure.Services
 
         public async Task<JwtDto> RegisterAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
         {
-            var id = Guid.NewGuid();
-            var user = new User
-            {
-                Id = Guid.NewGuid(),
-                Email = command.Email,
-                UserName = command.FirstName,
-                LastName = command.LastName,
-                CreatedOn = DateTimeOffset.Now,
-                CreatedByUserId = id.ToString(),
-                EmailConfirmed = true,
-                Balance = new UserBalance()
-                {
-                    Id = Guid.NewGuid(),
-                    Credits = 10,
-                    UserId = id,
-                    CreatedOn = DateTimeOffset.Now,
-                    CreatedByUserId = id.ToString(),
-                }
-            };
+            var user = UserAuthRegisterCommand.ToUser(command);
             var result = await _userManager.CreateAsync(user, command.Password);
             if (result.Succeeded)
             {
