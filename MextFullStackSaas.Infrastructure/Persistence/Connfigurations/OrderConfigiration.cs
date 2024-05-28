@@ -21,7 +21,10 @@ namespace MextFullStackSaas.Infrastructure.Persistence.Connfigurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             //IconDescription
-            builder.Property(x=>x.Id).HasMaxLength(200).IsRequired();
+            builder.Property(x => x.Id).HasMaxLength(200).IsRequired();
+
+            //Description
+            builder.Property(x => x.Description).HasMaxLength(1000).IsRequired(false);
 
             //ClourCode
             builder.Property(x=>x.ColourCode).HasMaxLength(15).IsRequired();

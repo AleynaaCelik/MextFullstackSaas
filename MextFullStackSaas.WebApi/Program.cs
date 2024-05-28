@@ -9,8 +9,13 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog; // Doðru namespace'i ekleyin
 
+// Configure Serilog
 Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Information()
     .WriteTo.Console()
+    .WriteTo.File(
+        path: "C:\\Users\\DELL\\Desktop\\Logs\\log.txt",
+        rollingInterval: RollingInterval.Day)
     .CreateLogger();
 
 try

@@ -20,7 +20,8 @@ namespace MextFullStackSaas.WebApi.Controllers
         [HttpPost("register")]
         public async Task<IActionResult>RegisterAsync(UserAuthRegisterCommand command,CancellationToken cancellationToken)
         {
-            return Ok(await _mediatr.Send(command, cancellationToken));
+           // throw new ArgumentNullException(command.FirstName, "First name is required");
+           return Ok(await _mediatr.Send(command, cancellationToken));
         }
     }
 }
