@@ -31,7 +31,8 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
             RuleFor(x => x.LastName)
                 .NotEmpty().WithMessage("Last name is required");
 
-
+            RuleFor(x => x.Email)
+               .MustAsync(CheckIfUserExist).WithMessage("User with this already exists");
         }
         private async Task<bool>CheckIfUserExist(string email,CancellationToken cancellationToken)
         {
