@@ -38,6 +38,7 @@ namespace MextFullStackSaas.Infrastructure
             //Dependency Inversion
             services.AddScoped<IJwtService, JwtManager>();
             services.AddScoped<IIdentityService, IdentityManager>();
+            services.AddScoped<IEmailService, ResendEmailManager>();
 
             //Resend
             services.AddOptions();

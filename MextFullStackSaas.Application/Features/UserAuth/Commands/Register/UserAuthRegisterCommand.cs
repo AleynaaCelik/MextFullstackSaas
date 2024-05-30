@@ -29,7 +29,8 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
             {
                 Id = Guid.NewGuid(),
                 Email = command.Email,
-                UserName = command.FirstName,
+                UserName = command.Email,
+                FirstName=command.FirstName,
                 LastName = command.LastName,
                 CreatedOn = DateTimeOffset.UtcNow,
                 CreatedByUserId = id.ToString(),
