@@ -30,7 +30,7 @@ namespace MextFullStackSaas.Infrastructure.Services
             {
                 throw new Exception("User registration failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
-            return new UserAuthRegisterResponseDto(user.Id, user.Email);
+            return new UserAuthRegisterResponseDto(user.Id, user.Email,user.FirstName);
         }
 
         public Task<JwtDto> SignInAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)

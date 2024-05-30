@@ -27,10 +27,10 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
             var jwtDto = await _jwtService.GenerateTokenAsync(response.Id, response.Email, cancellationToken);
 
             //Send Email Verification
-            await SendEmailVerificationAsync(response.Email, cancellationToken);
+            await SendEmailVerificationAsync(response.Email,response.FirstName, cancellationToken);
             return new ResponseDto<JwtDto>(jwtDto, "Welcome to our application");
         }
-        private async Task SendEmailVerificationAsync(string email,CancellationToken cancellationToken)
+        private async Task SendEmailVerificationAsync(string email,string FirstName,CancellationToken cancellationToken)
         {
             var emailDto = new EmailSendEmailVerificationDto();
         }

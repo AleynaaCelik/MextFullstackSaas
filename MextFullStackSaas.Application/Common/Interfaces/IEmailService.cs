@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MextFullStackSaas.Application.Common.Models.Emails;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace MextFullStackSaas.Application.Common.Interfaces
 {
     public interface IEmailService
     {
-        Task SendEmailVerificationAsync(string email,string subject,string message);
+        Task SendEmailVerificationAsync(EmailSendEmailVerificationDto emailDto,CancellationToken cancellationToken);
     }
 }
