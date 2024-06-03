@@ -32,9 +32,20 @@ namespace MextFullStackSaas.Infrastructure
 
 
                 options.User.RequireUniqueEmail = true;
+
+                //Set Email Validition 
+
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            //Send the token lifespan to three hours for the email confirmation token
+            services.Configure<DataProtectionTokenProviderOptions>(options =>
+            {
+                options.TokenLifespan = TimeSpan.FromHours(3);
+                
+            });
+
             //Dependency Inversion
             services.AddScoped<IJwtService, JwtManager>();
             services.AddScoped<IIdentityService, IdentityManager>();

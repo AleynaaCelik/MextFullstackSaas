@@ -5,8 +5,11 @@ using MextFullStackSaas.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
+using MextFullStackSaas.Application.Features.UserAuth.Commands.VerifiyEmail;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -59,6 +62,27 @@ namespace MextFullStackSaas.Infrastructure.Services
             var  user=await _userManager.FindByEmailAsync(email);
             if (user is null) return false;
             return await _userManager.CheckPasswordAsync(user, password);
+        }
+
+        public async Task<bool> VerifyEmialAsync(UserAuthVerifyEmailCommand command, CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByEmailAsync(command.Email);
+
+            var decodedToken = WebUtility.UrlDecode(command.Token);
+
+            var result = await _userManager.ConfirmEmailAsync(user, command.Token);
+
+            if (!result.Succeeded)
+            {
+                throw new Exception("Users email verification failed");
+
+            }
+            return true;
+        }
+
+        public Task<bool> CheckIfEmailVerifiedAsync(string email, CancellationToken cancellationToken)
+        {
+            return _userManager.Users.AnyAsync(x=>x.Email==email&&x.EmailConfirmed,cancellationToken);
         }
     }
 }

@@ -17,5 +17,9 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.VerifiyEmail
                 Email = email;
             Token = token;
         }
+        public UserAuthVerifyEmailCommand()
+        {
+                
+        }
     }
 }

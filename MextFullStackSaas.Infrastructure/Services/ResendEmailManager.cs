@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace MextFullStackSaas.Infrastructure.Services
 {
@@ -19,12 +20,14 @@ namespace MextFullStackSaas.Infrastructure.Services
         private const string ApiBaseUrl = "https://localhost:7030/swagger/";
         public Task SendEmailVerificationAsync(EmailSendEmailVerificationDto emailDto, CancellationToken cancellationToken)
         {
-            var link = $"{ApiBaseUrl}UserAuth/VerifyEmail?email={emailDto.Email}&token={emailDto.Token}";
+            var link = $"{ApiBaseUrl}UserAuth/verify-email?email={emailDto.Email}&token={emailDto.Token}";
+            var urlEncodedLink = HttpUtility.UrlEncode(link);
+
             var message = new EmailMessage();
             message.From = "onboarding@resend.dev";
             message.To.Add(emailDto.Email);
             message.Subject = "Email Verification || IconBuilderAI";
-            message.HtmlBody = $"<div><a href=\"{link}\" target=\"_blank\"><strong>Greetings<strong> 👋🏻 from .NET</a></div>";
+            message.HtmlBody = $"<div><a href=\"{urlEncodedLink}\" target=\"_blank\"><strong>Greetings<strong> 👋🏻 from .NET</a></div>";
 
             return  _resend.EmailSendAsync(message,cancellationToken);
         }
