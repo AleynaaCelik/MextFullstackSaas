@@ -56,7 +56,7 @@ namespace MextFullStackSaas.Infrastructure.Services
 
         public async Task<bool> CheckPasswordSignInAsync(string email, string password, CancellationToken cancellationToken)
         {
-            var  user=await _userManager.FindByIdAsync(email);
+            var  user=await _userManager.FindByEmailAsync(email);
             if (user is null) return false;
             return await _userManager.CheckPasswordAsync(user, password);
         }

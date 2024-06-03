@@ -23,10 +23,12 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Login
                 .NotEmpty().WithMessage("Password is required")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters");
 
+            RuleFor(x => x.Email).MustAsync((x, y, cancellationToken) => CheckPasswordSignInAsync(x.Email, x.Password, cancellationToken)).WithMessage("Your email or password is incorrect.Please try again");
+
         }
-        private  Task<bool> CheckIfUserExist(string email, CancellationToken cancellationToken)
+        private  Task<bool> CheckPasswordSignInAsync(string email,string password, CancellationToken cancellationToken)
         {
-            return  _identityService.IsEmailExistAsync(email, cancellationToken);
+            return  _identityService.CheckPasswordSignInAsync(email, password,cancellationToken);
         }
     }
 }

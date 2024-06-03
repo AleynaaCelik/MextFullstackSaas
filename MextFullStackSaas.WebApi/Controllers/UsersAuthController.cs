@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,12 @@ namespace MextFullStackSaas.WebApi.Controllers
         {
            // throw new ArgumentNullException(command.FirstName, "First name is required");
            return Ok(await _mediatr.Send(command, cancellationToken));
+        }
+        [HttpPost("Login")]
+        public async Task<IActionResult> LoginAsync(UserAuthLoginCommand command, CancellationToken cancellationToken)
+        {
+            // throw new ArgumentNullException(command.FirstName, "First name is required");
+            return Ok(await _mediatr.Send(command, cancellationToken));
         }
     }
 }
