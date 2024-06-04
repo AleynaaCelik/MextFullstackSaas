@@ -21,17 +21,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
         public IconShape Shape { get; set; }
         public int Quantity { get; set; }
 
-        //public static void MapToOrder(Order order, OrderUpdateCommand orderUpdateCommand)
-        //{
-        //    order.IconDescription = orderUpdateCommand.IconDescription;
-        //    order.ColourCode = orderUpdateCommand.ColourCode;
-        //    order.Model = orderUpdateCommand.Model;
-        //    order.DesignType = orderUpdateCommand.DesignType;
-        //    order.Size = orderUpdateCommand.Size;
-        //    order.Shape = orderUpdateCommand.Shape;
-        //    order.Quantity = orderUpdateCommand.Quantity;
-        //    order.ModifiedOn = DateTimeOffset.UtcNow;
-        //}
+        
 
 
     }

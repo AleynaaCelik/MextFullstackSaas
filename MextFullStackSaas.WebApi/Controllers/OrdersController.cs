@@ -42,5 +42,11 @@ namespace MextFullStackSaas.WebApi.Controllers
         {
             return Ok(await _mediatr.Send(new OrderGetAllQuery(), cancellationToken));
         }
+
+        [HttpPut("{id:guid}")]
+        public async Task<IActionResult> UpdateAsync(CancellationToken cancellationToken)
+        {
+            return Ok(await _mediatr.Send(new OrderGetAllQuery(), cancellationToken));
+        }
     }
 }

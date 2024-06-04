@@ -5,6 +5,7 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using MextFullstackSaas.Domain.Entities;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
 {
@@ -34,6 +35,16 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
                 return new ResponseDto<Guid>(Guid.Empty, "You are not authorized to update this order");
             }
 
+            MapToOrder(order, request);
+
+            _dbContext.Orders.Update(order);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return new ResponseDto<Guid>(order.Id, "Order updated successfully");
+        }
+
+        private void MapToOrder(Order order, OrderUpdateCommand request)
+        {
             order.IconDescription = request.IconDescription;
             order.ColourCode = request.ColourCode;
             order.Model = request.Model;
@@ -42,11 +53,6 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
             order.Shape = request.Shape;
             order.Quantity = request.Quantity;
             order.ModifiedOn = DateTimeOffset.UtcNow;
-
-            _dbContext.Orders.Update(order);
-            await _dbContext.SaveChangesAsync(cancellationToken);
-
-            return new ResponseDto<Guid>(order.Id, "Order updated successfully");
         }
     }
 }

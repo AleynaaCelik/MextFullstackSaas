@@ -24,15 +24,6 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
             var order = await _dbContext.Orders
                 .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
-            if (order == null)
-            {
-                return new ResponseDto<Guid>(Guid.Empty, "Order not found");
-            }
-
-            if (order.UserId != _currentUserService.UserId)
-            {
-                return new ResponseDto<Guid>(Guid.Empty, "You are not authorized to delete this order");
-            }
 
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync(cancellationToken);

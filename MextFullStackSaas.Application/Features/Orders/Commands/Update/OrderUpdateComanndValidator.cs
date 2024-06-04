@@ -1,5 +1,7 @@
 ﻿using FluentValidation;
+using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Features.Orders.Commands.Delete;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,9 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
 {
     public class OrderUpdateComanndValidator : AbstractValidator<OrderUpdateCommand>
     {
+        private readonly IApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
+
         public OrderUpdateComanndValidator()
         {
             RuleFor(x => x.Id).NotEmpty().WithMessage("Order ID is required");
@@ -27,6 +32,25 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
             RuleFor(x => x.Shape).IsInEnum().WithMessage("Please select a valid shape");
 
             RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Please select a valid quantity");
+            RuleFor(x => x.Id)
+               .MustAsync((id, cancellationToken) => IsOrderExists(id, cancellationToken))
+               .WithMessage("The selected order does not exist.");
+
+            RuleFor(x => x.Id)
+                .MustAsync((id, cancellationToken) => IsOrderBelongsToCurrentUser(id, cancellationToken))
+                .WithMessage("The selected order does not belong to the current user.");
+        }
+        private Task<bool> IsOrderExists(Guid id, CancellationToken cancellationToken)
+        {
+            return _dbContext.Orders.AnyAsync(o => o.Id == id, cancellationToken);
+        }
+
+        private Task<bool> IsOrderBelongsToCurrentUser(Guid id, CancellationToken cancellationToken)
+        {
+            return _dbContext.Orders
+                .AnyAsync(o => o.Id == id && o.UserId == _currentUserService.UserId, cancellationToken);
+
+
         }
     }
 }
