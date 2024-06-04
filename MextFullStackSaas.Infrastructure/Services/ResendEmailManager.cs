@@ -20,14 +20,16 @@ namespace MextFullStackSaas.Infrastructure.Services
         private const string ApiBaseUrl = "https://localhost:7030/swagger/";
         public Task SendEmailVerificationAsync(EmailSendEmailVerificationDto emailDto, CancellationToken cancellationToken)
         {
-            var link = $"{ApiBaseUrl}UserAuth/verify-email?email={emailDto.Email}&token={emailDto.Token}";
-            var urlEncodedLink = HttpUtility.UrlEncode(link);
+            var encodedEmail = HttpUtility.UrlEncode(emailDto.Email);
+            var encodedToken = HttpUtility.UrlEncode(emailDto.Token);
+            var link = $"{ApiBaseUrl}UserAuth/verify-email?email={encodedEmail}&token={encodedToken}";
+            
 
             var message = new EmailMessage();
             message.From = "onboarding@resend.dev";
             message.To.Add(emailDto.Email);
             message.Subject = "Email Verification || IconBuilderAI";
-            message.HtmlBody = $"<div><a href=\"{urlEncodedLink}\" target=\"_blank\"><strong>Greetings<strong> 👋🏻 from .NET</a></div>";
+            message.HtmlBody = $"<div><a href=\"{link}\" target=\"_blank\"><strong>Greetings<strong> 👋🏻 from .NET</a></div>";
 
             return  _resend.EmailSendAsync(message,cancellationToken);
         }

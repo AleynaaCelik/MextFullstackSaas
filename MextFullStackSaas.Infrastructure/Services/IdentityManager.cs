@@ -68,8 +68,6 @@ namespace MextFullStackSaas.Infrastructure.Services
         {
             var user = await _userManager.FindByEmailAsync(command.Email);
 
-            var decodedToken = WebUtility.UrlDecode(command.Token);
-
             var result = await _userManager.ConfirmEmailAsync(user, command.Token);
 
             if (!result.Succeeded)

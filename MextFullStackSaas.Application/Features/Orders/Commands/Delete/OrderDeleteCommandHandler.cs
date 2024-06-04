@@ -1,32 +1,43 @@
 ﻿using MediatR;
+using MextFullstackSaaS.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Interfaces;
-using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
 {
-    public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand, Guid>
+    public class OrderDeleteCommandHandler : IRequestHandler<OrderDeleteCommand, ResponseDto<Guid>>
     {
+        private readonly IApplicationDbContext _dbContext;
+        private readonly ICurrentUserService _currentUserService;
 
-        private readonly IApplicationDbContext _dbcontext;
-
-        public OrderDeleteCommandHandler(IApplicationDbContext dbcontext)
+        public OrderDeleteCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService)
         {
-            _dbcontext = dbcontext;
+            _dbContext = dbContext;
+            _currentUserService = currentUserService;
         }
 
-        public async Task<Guid> Handle(OrderDeleteCommand request, CancellationToken cancellationToken)
+        public async Task<ResponseDto<Guid>> Handle(OrderDeleteCommand request, CancellationToken cancellationToken)
         {
-            var order=await _dbcontext.Orders.FirstOrDefaultAsync(x=>x.Id==request.Id,cancellationToken);
+            var order = await _dbContext.Orders
+                .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
-            _dbcontext.Orders.Remove(order);
-            await _dbcontext.SaveChangesAsync(cancellationToken);
+            if (order == null)
+            {
+                return new ResponseDto<Guid>(Guid.Empty, "Order not found");
+            }
 
-            return order.Id;
+            if (order.UserId != _currentUserService.UserId)
+            {
+                return new ResponseDto<Guid>(Guid.Empty, "You are not authorized to delete this order");
+            }
+
+            _dbContext.Orders.Remove(order);
+            await _dbContext.SaveChangesAsync(cancellationToken);
+
+            return new ResponseDto<Guid>(order.Id, "Order deleted successfully");
         }
     }
 }
