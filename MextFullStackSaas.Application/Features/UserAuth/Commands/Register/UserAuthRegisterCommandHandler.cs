@@ -30,6 +30,7 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
 
             //Send Email Verification
             var sendEmailTask= SendEmailVerificationAsync(response.Email,response.FirstName,response.EmailToken, cancellationToken);
+            await Console.Out.WriteLineAsync($"Email={response.Email}, EmailToken={response.EmailToken}");
             await Task.WhenAll(jwtDtoTask,sendEmailTask);
 
             return new ResponseDto<JwtDto>(await jwtDtoTask, "Welcome to our application");

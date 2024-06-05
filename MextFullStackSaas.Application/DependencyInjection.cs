@@ -1,7 +1,9 @@
 ﻿using FluentValidation;
 using MediatR;
 using MextFullStackSaas.Application.Common.Behaviours;
+using MextFullStackSaas.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
+
 using System.Reflection;
 
 namespace MextFullStackSaas.Application
@@ -21,6 +23,8 @@ namespace MextFullStackSaas.Application
 
                 //<,> buradaki virgül tip hepsi olabilir demek
             });
+
+            
 
             return services;
         }

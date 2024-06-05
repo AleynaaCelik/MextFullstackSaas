@@ -25,15 +25,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
             var order = await _dbContext.Orders
                 .FirstOrDefaultAsync(o => o.Id == request.Id, cancellationToken);
 
-            if (order == null)
-            {
-                return new ResponseDto<Guid>(Guid.Empty, "Order not found");
-            }
-
-            if (order.UserId != _currentUserService.UserId)
-            {
-                return new ResponseDto<Guid>(Guid.Empty, "You are not authorized to update this order");
-            }
+           
 
             MapToOrder(order, request);
 
@@ -53,6 +45,8 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
             order.Shape = request.Shape;
             order.Quantity = request.Quantity;
             order.ModifiedOn = DateTimeOffset.UtcNow;
+
+           
         }
     }
 }

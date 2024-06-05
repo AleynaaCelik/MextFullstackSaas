@@ -1,4 +1,5 @@
-﻿using MextFullStackSaas.Application.Common.Models;
+﻿using MextFullstackSaaS.Application.Common.Models.Auth;
+using MextFullStackSaas.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
@@ -15,6 +16,9 @@ namespace MextFullStackSaas.Application.Common.Interfaces
         Task<bool> VerifyEmialAsync(UserAuthVerifyEmailCommand command,CancellationToken cancellationToken);
 
         Task<bool> CheckIfEmailVerifiedAsync(string email, CancellationToken cancellationToken);
+
+        Task<UserAuthResetPasswordResponseDto> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken);
+        Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
 
     }
 }

@@ -33,19 +33,19 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Update
 
             RuleFor(x => x.Quantity).GreaterThan(0).WithMessage("Please select a valid quantity");
             RuleFor(x => x.Id)
-               .MustAsync((id, cancellationToken) => IsOrderExists(id, cancellationToken))
+               .MustAsync((id, cancellationToken) => IsOrderExistsAsync(id, cancellationToken))
                .WithMessage("The selected order does not exist.");
 
             RuleFor(x => x.Id)
-                .MustAsync((id, cancellationToken) => IsOrderBelongsToCurrentUser(id, cancellationToken))
+                .MustAsync((id, cancellationToken) => IsTheSameUserAsync(id, cancellationToken))
                 .WithMessage("The selected order does not belong to the current user.");
         }
-        private Task<bool> IsOrderExists(Guid id, CancellationToken cancellationToken)
+        private Task<bool> IsOrderExistsAsync(Guid id, CancellationToken cancellationToken)
         {
             return _dbContext.Orders.AnyAsync(o => o.Id == id, cancellationToken);
         }
 
-        private Task<bool> IsOrderBelongsToCurrentUser(Guid id, CancellationToken cancellationToken)
+        private Task<bool> IsTheSameUserAsync(Guid id, CancellationToken cancellationToken)
         {
             return _dbContext.Orders
                 .AnyAsync(o => o.Id == id && o.UserId == _currentUserService.UserId, cancellationToken);
