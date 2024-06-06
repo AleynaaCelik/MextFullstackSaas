@@ -55,6 +55,8 @@ namespace MextFullStackSaas.Infrastructure
             //OpenAI
             services.AddOpenAIService(settings => settings.ApiKey = configuration.GetSection("OpenAIApiKey").Value!);
 
+            services.AddScoped<IOpenAIService, OpenAIManager>();
+
             //Resend
             services.AddOptions();
            services.AddHttpClient<ResendClient>();

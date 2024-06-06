@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MextFullStackSaas.Application.Common.Interfaces
 {
-    public interface IOpenAIServices
+    public interface IOpenAIService
     {
         Task<List<string>> DallECreateIconAsync(DallECreateIconRequestDto requestDto, CancellationToken cancellationToken);
 
