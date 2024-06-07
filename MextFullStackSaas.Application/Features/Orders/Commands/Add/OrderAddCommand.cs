@@ -21,11 +21,12 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
         public IconShape Shape { get; set; }
         public int Quantity { get; set; }
 
+
         public static Order MapToOrder(OrderAddCommand orderAddCommand)
         {
             return new Order
             {
-                Id=Guid.NewGuid(),
+                Id = Guid.NewGuid(),
                 IconDescription = orderAddCommand.IconDescription,
                 ColourCode = orderAddCommand.ColourCode,
                 Model = orderAddCommand.Model,
@@ -35,7 +36,7 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
                 Quantity = orderAddCommand.Quantity,
                 CreatedOn = DateTimeOffset.UtcNow,
             };
-            
+
         }
     }
 }

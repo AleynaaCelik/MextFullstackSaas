@@ -1,15 +1,12 @@
 ﻿using MediatR;
-using MextFullstackSaas.Domain.Common;
+using MextFullstackSaaS.Application.Common.Interfaces;
 using MextFullstackSaaS.Application.Common.Models;
+using MextFullstackSaaS.Application.Common.Models.OpenAI;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models.OpenAI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MextFullStackSaas.Application.Features.Orders.Commands.Add;
 
-namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
+namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
 {
     public class OrderAddCommandHandler : IRequestHandler<OrderAddCommand, ResponseDto<Guid>>
     {
@@ -17,28 +14,30 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
         private readonly ICurrentUserService _currentUserService;
         private readonly IOpenAIService _openAiService;
 
-        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService,IOpenAIService openAiServices)
+        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService, IOpenAIService openAiService)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;
-            _openAiService = openAiServices;
+            _openAiService = openAiService;
         }
 
         public async Task<ResponseDto<Guid>> Handle(OrderAddCommand request, CancellationToken cancellationToken)
         {
-           var order=OrderAddCommand.MapToOrder
-                (request);
+            var order = OrderAddCommand.MapToOrder(request);
+
             order.UserId = _currentUserService.UserId;
             order.CreatedByUserId = _currentUserService.UserId.ToString();
-            order.Urls = await _openAiService.DallECreateIconAsync(DallECreateIconRequestDto.MapFromOrderAddCommand(request),cancellationToken);
+            order.Urls =
+                await _openAiService.DallECreateIconAsync(DallECreateIconRequestDto.MapFromOrderAddCommand(request),
+                    cancellationToken);
 
-            //TODO:Make Request to the Gemine or Dal-e-3
+            /* TODO: Make Request to the Gemine or Dall-e 3 */
 
-            _dbContext.Orders.Add (order);
+            _dbContext.Orders.Add(order);
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
-            return new ResponseDto<Guid>(order.Id, "Your order completed successfully");
+            return new ResponseDto<Guid>(order.Id, "Your order completed successfully.");
         }
     }
 }
