@@ -32,9 +32,9 @@ try
     {
         opt.Filters.Add<GlobalExceptionFilter>();
     });
-    // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
+    //// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+    //builder.Services.AddEndpointsApiExplorer();
+    //builder.Services.AddSwaggerGen();
 
     builder.Services.AddApplication();
 
@@ -56,6 +56,8 @@ try
     }
 
     app.UseHttpsRedirection();
+
+    app.UseAuthentication(); //Servislere kaydederken oluþturduðum ayarlara bakacak
 
     app.UseAuthorization();
 

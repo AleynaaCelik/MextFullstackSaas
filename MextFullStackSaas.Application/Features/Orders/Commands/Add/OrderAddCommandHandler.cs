@@ -1,7 +1,5 @@
 ﻿using MediatR;
-using MextFullstackSaaS.Application.Common.Interfaces;
 using MextFullstackSaaS.Application.Common.Models;
-using MextFullstackSaaS.Application.Common.Models.OpenAI;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models.OpenAI;
 using MextFullStackSaas.Application.Features.Orders.Commands.Add;
