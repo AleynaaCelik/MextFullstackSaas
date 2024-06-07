@@ -29,7 +29,7 @@ namespace MextFullstackSaaS.WebApi.Filters
             {
                 case ValidationException validationException:
 
-                    var message = _localizer["GeneralValidationExceptionMessage"];
+                    var message = _localizer[CommonTranslationKeys.GeneralValidationExceptionMessage];
 
                     List<ErrorDto> errors = new List<ErrorDto>();
 
@@ -59,7 +59,7 @@ namespace MextFullstackSaaS.WebApi.Filters
 
                 default:
 
-                    response.Message = _localizer["GeneralServerExceptionMessage"];
+                    response.Message = _localizer[CommonTranslationKeys.GeneralServerExceptionMessage];
 
                     context.Result = new ObjectResult(response)
                     {
