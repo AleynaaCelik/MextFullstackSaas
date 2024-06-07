@@ -22,14 +22,14 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CommonTranlations_en_GB {
+    internal class CommonTranlations_tr_Tr_GB {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CommonTranlations_en_GB() {
+        internal CommonTranlations_tr_Tr_GB() {
         }
         
         /// <summary>
@@ -39,8 +39,8 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MextFullStackSaas.Application.Resources.Common.Translations.CommonTranlations-en-" +
-                            "GB", typeof(CommonTranlations_en_GB).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MextFullStackSaas.Application.Resources.Common.Translations.CommonTranlations-tr-" +
+                            "Tr-GB", typeof(CommonTranlations_tr_Tr_GB).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -62,7 +62,7 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to An unexpected error occurred on the server side..
+        ///   Looks up a localized string similar to Sunucu tarafında beklenmedik bir hata oluştu..
         /// </summary>
         internal static string GeneralServerExceptionMessage {
             get {
@@ -71,7 +71,7 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to One or more validation errors occurred..
+        ///   Looks up a localized string similar to Bir veya daha fazla validasyon hatası oluştu..
         /// </summary>
         internal static string GeneralValidationExceptionMessage {
             get {

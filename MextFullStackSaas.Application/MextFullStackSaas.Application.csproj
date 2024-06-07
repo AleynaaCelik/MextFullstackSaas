@@ -21,12 +21,21 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>CommonTranlations-en-GB.resx</DependentUpon>
     </Compile>
+    <Compile Update="Resources\Common\Translations\CommonTranlations-tr-Tr-GB.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CommonTranlations-tr-Tr-GB.resx</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Update="Resources\Common\Translations\CommonTranlations-en-GB.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CommonTranlations-en-GB.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Resources\Common\Translations\CommonTranlations-tr-Tr-GB.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CommonTranlations-tr-Tr-GB.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
 
