@@ -12,8 +12,8 @@ namespace MextFullStackSaas.WebApi.Services
             
         }
 
-        public Guid UserId => new Guid("35c16d2a-f25b-4701-9a74-ea1fb7ed6d93");
-
+        //public Guid UserId => new Guid("35c16d2a-f25b-4701-9a74-ea1fb7ed6d93");
+        public Guid UserId=>GetUserId();
         private Guid GetUserId() 
         {
             var userId = _httpContextAccessor.HttpContext?.User?.FindFirstValue("uid");
