@@ -11,6 +11,10 @@ namespace MextFullStackSaas.WebApi
     {
         public static IServiceCollection AddWebServices(this IServiceCollection services, IConfiguration configuration)
         {
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources";
+            });
             services.AddEndpointsApiExplorer();
 
             services.AddSwaggerGen(setupAction =>
