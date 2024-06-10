@@ -7,6 +7,7 @@ using MextFullStackSaas.WebApi;
 using MextFullStackSaas.WebApi.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using Serilog; // Doðru namespace'i ekleyin
 
 // Configure Serilog
@@ -54,6 +55,9 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+  
+    var requestLocalizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
+    app.UseRequestLocalization(requestLocalizationOptions.Value);
 
     app.UseHttpsRedirection();
 

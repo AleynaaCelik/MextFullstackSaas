@@ -13,5 +13,8 @@ namespace MextFullStackSaas.Application.Common.Translations
         //GeneralKeys
         public static string GeneralValidationExceptionMessage => nameof(GeneralValidationExceptionMessage);
         public static string GeneralServerExceptionMessage => nameof(GeneralServerExceptionMessage);
+        //UsrAuth Keys
+        public static string UserAuthRegisterSuccededMessage=>nameof(UserAuthRegisterSuccededMessage);
+        public static string UserAuthVerifyEmailSuccededMessage=>nameof(UserAuthVerifyEmailSuccededMessage);
     }
 }

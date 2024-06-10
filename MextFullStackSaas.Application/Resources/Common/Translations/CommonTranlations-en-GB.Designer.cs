@@ -78,5 +78,32 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
                 return ResourceManager.GetString("GeneralValidationExceptionMessage", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string UserAuthLoginSucceddedMessage {
+            get {
+                return ResourceManager.GetString("UserAuthLoginSucceddedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Welcome to our application :).
+        /// </summary>
+        internal static string UserAuthRegisterSucceddedMessage {
+            get {
+                return ResourceManager.GetString("UserAuthRegisterSucceddedMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} Your email address verified succsessfully..
+        /// </summary>
+        internal static string UserAuthVerifyEmailSuccededMessage {
+            get {
+                return ResourceManager.GetString("UserAuthVerifyEmailSuccededMessage", resourceCulture);
+            }
+        }
     }
 }

@@ -3,7 +3,9 @@ using MextFullstackSaaS.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Models.Emails;
+using MextFullStackSaas.Application.Common.Translations;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
+using Microsoft.Extensions.Localization;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,12 +17,14 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
         private readonly IIdentityService _identityService;
         private readonly IJwtService _jwtService;
         private readonly IEmailService _emailService;
-
-        public UserAuthRegisterCommandHandler(IIdentityService identityService, IJwtService jwtService,IEmailService emailService)
+        private readonly IStringLocalizer<CommonTranslations> _localizer;
+        public UserAuthRegisterCommandHandler(IIdentityService identityService, IJwtService jwtService,IEmailService emailService, IStringLocalizer<CommonTranslations> localizer)
         {
             _identityService = identityService;
             _jwtService = jwtService;
             _emailService=emailService;
+            _localizer = localizer;
+
         }
 
         public async Task<ResponseDto<JwtDto>> Handle(UserAuthRegisterCommand request, CancellationToken cancellationToken)
@@ -33,7 +37,7 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
             await Console.Out.WriteLineAsync($"Email={response.Email}, EmailToken={response.EmailToken}");
             await Task.WhenAll(jwtDtoTask,sendEmailTask);
 
-            return new ResponseDto<JwtDto>(await jwtDtoTask, "Welcome to our application");
+            return new ResponseDto<JwtDto>(await jwtDtoTask,_localizer[CommonTranslationKeys.UserAuthRegisterSuccededMessage] );
         }
         private  Task SendEmailVerificationAsync(string email,string firstName,string emailToken,CancellationToken cancellationToken)
         {

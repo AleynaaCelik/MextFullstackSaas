@@ -123,4 +123,10 @@
   <data name="GeneralValidationExceptionMessage" xml:space="preserve">
     <value>Bir veya daha fazla validasyon hatası oluştu.</value>
   </data>
+  <data name="UserAuthRegisterSucceddedMessage" xml:space="preserve">
+    <value>oş geldiniz :)</value>
+  </data>
+  <data name="UserAuthVerifyEmailSuccededMessage" xml:space="preserve">
+    <value>{0} E-Posta  adresiniz başarıyla onaylanmıştır.</value>
+  </data>
 </root>

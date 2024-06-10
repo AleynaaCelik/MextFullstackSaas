@@ -123,4 +123,13 @@
   <data name="GeneralValidationExceptionMessage" xml:space="preserve">
     <value>One or more validation errors occurred.</value>
   </data>
+  <data name="UserAuthLoginSucceddedMessage" xml:space="preserve">
+    <value />
+  </data>
+  <data name="UserAuthRegisterSucceddedMessage" xml:space="preserve">
+    <value>Welcome to our application :)</value>
+  </data>
+  <data name="UserAuthVerifyEmailSuccededMessage" xml:space="preserve">
+    <value>{0} Your email address verified succsessfully.</value>
+  </data>
 </root>

@@ -3,6 +3,7 @@ using MextFullStackSaas.WebApi.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Globalization;
 using System.Text;
 
 namespace MextFullStackSaas.WebApi
@@ -14,6 +15,21 @@ namespace MextFullStackSaas.WebApi
             services.AddLocalization(options =>
             {
                 options.ResourcesPath = "Resources";
+            });
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                var defaultCulture = new CultureInfo("en-GB");
+                //Default dili ingilizce yaptık 
+                var supportedCultures = new List<CultureInfo> {
+                    defaultCulture,
+                    new CultureInfo("tr-TR")
+                };
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture(defaultCulture);
+
+                options.SupportedCultures = supportedCultures;
+                options.SupportedUICultures= supportedCultures;
+                options.ApplyCurrentCultureToResponseHeaders = true;
+
             });
             services.AddEndpointsApiExplorer();
 
