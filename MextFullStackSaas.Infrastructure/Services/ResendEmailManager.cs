@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
 using MextFullStackSaas.Application.Common.Interfaces;
@@ -32,16 +34,26 @@ namespace MextFullStackSaas.Infrastructure.Services
             htmlContent = htmlContent.Replace("{{{content}}}", "Kindly click the button below the confirm your email address ");
             htmlContent = htmlContent.Replace("{{{buttonText}}}", "Verify Email ");
 
+            // Yanlış: EmailSendAsync
+            // Doğru: SendEmailAsync
+            await SendEmailAsync(new EmailSendDto(emailDto.Email, "Email Verification", htmlContent), cancellationToken);
+        }
 
+        private Task SendEmailAsync(EmailSendDto emailSendDto, CancellationToken cancellationToken)
+        {
             var message = new EmailMessage
             {
-                From = "onboarding@resend.dev",
-                To = { emailDto.Email },
-                Subject = "Email Verification || IconBuilderAI",
-                HtmlBody = htmlContent
+                From = "noreply@yazilim.academy",
+                Subject = emailSendDto.Subject,
+                HtmlBody = emailSendDto.HtmlContent
             };
 
-            await _resend.EmailSendAsync(message, cancellationToken);
+            foreach (var emailAddress in emailSendDto.Addreses)
+            {
+                message.To.Add(emailAddress);
+            }
+
+            return _resend.EmailSendAsync(message, cancellationToken);
         }
 
         public Task SendPasswordResetEmailAsync(EmailSendPasswordResetDto emailDto, CancellationToken cancellationToken)
@@ -50,7 +62,7 @@ namespace MextFullStackSaas.Infrastructure.Services
             var encodedToken = Uri.EscapeDataString(emailDto.Token);
             var link = $"{ApiBaseUrl}UsersAuth/reset-password?email={encodedEmail}&token={encodedToken}";
 
-            Console.WriteLine($"Token:{emailDto.Token}");
+            Console.WriteLine($"Token: {emailDto.Token}");
 
             var message = new EmailMessage
             {
