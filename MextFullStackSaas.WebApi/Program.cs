@@ -47,6 +47,8 @@ try
     {
         options.SuppressModelStateInvalidFilter = true;
     });
+    builder.Services.AddSingleton<IRoothPathService>(new RootPathManager(builder.Environment.WebRootPath));
+
     var app = builder.Build();
 
     // Configure the HTTP request pipeline.
@@ -55,7 +57,8 @@ try
         app.UseSwagger();
         app.UseSwaggerUI();
     }
-  
+    app.UseStaticFiles();
+
     var requestLocalizationOptions = app.Services.GetRequiredService<IOptions<RequestLocalizationOptions>>();
     app.UseRequestLocalization(requestLocalizationOptions.Value);
 
