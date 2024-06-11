@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MextFullStackSaas.Applicati
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MextFullStackSaas.Infrastructure", "MextFullStackSaas.Infrastructure\MextFullStackSaas.Infrastructure.csproj", "{E089CCDB-C834-473B-8928-43B754877CB3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MextFullStackSaas.WebApi", "MextFullStackSaas.WebApi\MextFullStackSaas.WebApi.csproj", "{B7ECBAB0-1D58-41ED-BD73-E60873E96C11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MextFullStackSaas.WebApi", "MextFullStackSaas.WebApi\MextFullStackSaas.WebApi.csproj", "{B7ECBAB0-1D58-41ED-BD73-E60873E96C11}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MextFullStackSaas.WasmClientt", "MextFullStackSaas.WasmClientt\MextFullStackSaas.WasmClientt.csproj", "{B6A9E72B-9278-44E1-8BC0-7C89D4B990E4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{B7ECBAB0-1D58-41ED-BD73-E60873E96C11}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B7ECBAB0-1D58-41ED-BD73-E60873E96C11}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B7ECBAB0-1D58-41ED-BD73-E60873E96C11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B6A9E72B-9278-44E1-8BC0-7C89D4B990E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6A9E72B-9278-44E1-8BC0-7C89D4B990E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6A9E72B-9278-44E1-8BC0-7C89D4B990E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6A9E72B-9278-44E1-8BC0-7C89D4B990E4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
