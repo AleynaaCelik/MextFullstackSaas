@@ -16,5 +16,9 @@ namespace MextFullStackSaas.Application.Common.Translations
         //UsrAuth Keys
         public static string UserAuthRegisterSuccededMessage=>nameof(UserAuthRegisterSuccededMessage);
         public static string UserAuthVerifyEmailSuccededMessage=>nameof(UserAuthVerifyEmailSuccededMessage);
+        public static  string ForgotPasswordSuccessMessage = nameof(ForgotPasswordSuccessMessage);
+        public static string ForgotPasswordFailureMessage = nameof(ForgotPasswordFailureMessage);
+        public const string ResetPasswordSuccessMessage = nameof(ResetPasswordSuccessMessage);
+        public const string ResetPasswordFailureMessage = nameof(ResetPasswordFailureMessage);
     }
 }

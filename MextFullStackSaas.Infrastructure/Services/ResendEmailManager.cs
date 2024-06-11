@@ -34,8 +34,7 @@ namespace MextFullStackSaas.Infrastructure.Services
             htmlContent = htmlContent.Replace("{{{content}}}", "Kindly click the button below the confirm your email address ");
             htmlContent = htmlContent.Replace("{{{buttonText}}}", "Verify Email ");
 
-            // Yanlış: EmailSendAsync
-            // Doğru: SendEmailAsync
+            
             await SendEmailAsync(new EmailSendDto(emailDto.Email, "Email Verification", htmlContent), cancellationToken);
         }
 

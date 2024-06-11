@@ -62,6 +62,15 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password reset email sent successfully to {0}.
+        /// </summary>
+        internal static string ForgotPasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ForgotPasswordSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to An unexpected error occurred on the server side..
         /// </summary>
         internal static string GeneralServerExceptionMessage {

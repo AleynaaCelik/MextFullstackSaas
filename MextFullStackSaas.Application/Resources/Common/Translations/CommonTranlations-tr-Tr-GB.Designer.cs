@@ -62,6 +62,15 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Şifre sıfırlama e-postası başarıyla {0} adresine gönderildi.
+        /// </summary>
+        internal static string ForgotPasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ForgotPasswordSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Sunucu tarafında beklenmedik bir hata oluştu..
         /// </summary>
         internal static string GeneralServerExceptionMessage {

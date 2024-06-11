@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using MextFullStackSaas.Application.Common.Translations;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.ForgotPassword;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
@@ -6,6 +7,7 @@ using MextFullStackSaas.Application.Features.UserAuth.Commands.ResetPassword;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.VerifiyEmail;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 
 namespace MextFullStackSaas.WebApi.Controllers
 {
@@ -15,10 +17,11 @@ namespace MextFullStackSaas.WebApi.Controllers
     {
 
         private readonly ISender _mediatr;
-
+        
         public UsersAuthController(ISender mediatr)
         {
             _mediatr = mediatr;
+            
         }
 
         [HttpPost("register")]
