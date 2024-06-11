@@ -22,7 +22,7 @@ namespace MextFullStackSaas.Application.Features.UserAuth.Commands.Register
                 .NotEmpty().WithMessage("Password is required")
                 .MinimumLength(6).WithMessage("Password must be at least 6 characters");
 
-            RuleFor(x => x.Confirmpassword)
+            RuleFor(x => x.ConfirmPassword)
                 .Equal(x => x.Password).WithMessage("Passwords do not match");
 
             RuleFor(x => x.FirstName)
