@@ -62,6 +62,33 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verify Email.
+        /// </summary>
+        internal static string EmailVerificationButtonText {
+            get {
+                return ResourceManager.GetString("EmailVerificationButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kindly click the button below to confirm your email address..
+        /// </summary>
+        internal static string EmailVerificationContent {
+            get {
+                return ResourceManager.GetString("EmailVerificationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Email Verification.
+        /// </summary>
+        internal static string EmailVerificationSubject {
+            get {
+                return ResourceManager.GetString("EmailVerificationSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password reset email sent successfully to {0}.
         /// </summary>
         internal static string ForgotPasswordSuccessMessage {
@@ -85,6 +112,24 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         internal static string GeneralValidationExceptionMessage {
             get {
                 return ResourceManager.GetString("GeneralValidationExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to reset password for {0}.
+        /// </summary>
+        internal static string ResetPasswordFailureMessage {
+            get {
+                return ResourceManager.GetString("ResetPasswordFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password reset successfully for {0}.
+        /// </summary>
+        internal static string ResetPasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ResetPasswordSuccessMessage", resourceCulture);
             }
         }
         

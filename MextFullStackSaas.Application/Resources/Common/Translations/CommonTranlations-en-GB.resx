@@ -117,6 +117,15 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EmailVerificationButtonText" xml:space="preserve">
+    <value>Verify Email</value>
+  </data>
+  <data name="EmailVerificationContent" xml:space="preserve">
+    <value>Kindly click the button below to confirm your email address.</value>
+  </data>
+  <data name="EmailVerificationSubject" xml:space="preserve">
+    <value>Email Verification</value>
+  </data>
   <data name="ForgotPasswordSuccessMessage" xml:space="preserve">
     <value>Password reset email sent successfully to {0}</value>
   </data>
@@ -125,6 +134,12 @@
   </data>
   <data name="GeneralValidationExceptionMessage" xml:space="preserve">
     <value>One or more validation errors occurred.</value>
+  </data>
+  <data name="ResetPasswordFailureMessage" xml:space="preserve">
+    <value>Failed to reset password for {0}</value>
+  </data>
+  <data name="ResetPasswordSuccessMessage" xml:space="preserve">
+    <value>Password reset successfully for {0}</value>
   </data>
   <data name="UserAuthLoginSucceddedMessage" xml:space="preserve">
     <value />

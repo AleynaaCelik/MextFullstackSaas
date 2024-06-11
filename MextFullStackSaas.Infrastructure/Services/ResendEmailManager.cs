@@ -61,17 +61,9 @@ namespace MextFullStackSaas.Infrastructure.Services
             var encodedToken = Uri.EscapeDataString(emailDto.Token);
             var link = $"{ApiBaseUrl}UsersAuth/reset-password?email={encodedEmail}&token={encodedToken}";
 
-            Console.WriteLine($"Token: {emailDto.Token}");
+            var htmlContent = $"<div><a href=\"{link}\" target=\"_blank\">Click here</a> to reset your password.</div>";
 
-            var message = new EmailMessage
-            {
-                From = "onboarding@resend.dev",
-                To = { emailDto.Email },
-                Subject = "Password Reset",
-                HtmlBody = $"<div><a href=\"{link}\" target=\"_blank\">Click here</a> to reset your password.</div>"
-            };
-
-            return _resend.EmailSendAsync(message, cancellationToken);
+            return SendEmailAsync(new EmailSendDto(emailDto.Email, "Password Reset", htmlContent), cancellationToken);
         }
     }
 }

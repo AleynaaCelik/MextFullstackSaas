@@ -62,6 +62,33 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to E-Postayı Doğrula.
+        /// </summary>
+        internal static string EmailVerificationButtonText {
+            get {
+                return ResourceManager.GetString("EmailVerificationButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lütfen e-posta adresinizi doğrulamak için aşağıdaki butona tıklayın..
+        /// </summary>
+        internal static string EmailVerificationContent {
+            get {
+                return ResourceManager.GetString("EmailVerificationContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-Posta Doğrulama.
+        /// </summary>
+        internal static string EmailVerificationSubject {
+            get {
+                return ResourceManager.GetString("EmailVerificationSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Şifre sıfırlama e-postası başarıyla {0} adresine gönderildi.
         /// </summary>
         internal static string ForgotPasswordSuccessMessage {
@@ -85,6 +112,24 @@ namespace MextFullStackSaas.Application.Resources.Common.Translations {
         internal static string GeneralValidationExceptionMessage {
             get {
                 return ResourceManager.GetString("GeneralValidationExceptionMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Şifre sıfırlama başarısız oldu {0}.
+        /// </summary>
+        internal static string ResetPasswordFailureMessage {
+            get {
+                return ResourceManager.GetString("ResetPasswordFailureMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Şifre başarıyla sıfırlandı {0}.
+        /// </summary>
+        internal static string ResetPasswordSuccessMessage {
+            get {
+                return ResourceManager.GetString("ResetPasswordSuccessMessage", resourceCulture);
             }
         }
         
