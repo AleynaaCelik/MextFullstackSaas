@@ -20,13 +20,13 @@ namespace MextFullStackSaas.Infrastructure.Services
             _roothPathService = roothPathService;
         }
 
-        private const string ApiBaseUrl = "https://localhost:7030/api/";
+        private const string WebAppBaseUrl = "https://localhost:7030/api/";
 
         public async Task SendEmailVerificationAsync(EmailSendEmailVerificationDto emailDto, CancellationToken cancellationToken)
         {
             var encodedEmail = Uri.EscapeDataString(emailDto.Email);
             var encodedToken = Uri.EscapeDataString(emailDto.Token);
-            var link = $"{ApiBaseUrl}UsersAuth/verify-email?email={encodedEmail}&token={encodedToken}";
+            var link = $"{WebAppBaseUrl}verify-email/verify-email?email={encodedEmail}&token={encodedToken}";
 
             var htmlContent = await File.ReadAllTextAsync($"{_roothPathService.GetRoothPath()}/email-templates/userauth-template.html", cancellationToken);
             htmlContent = htmlContent.Replace("{{{Link}}}", link);
@@ -59,7 +59,7 @@ namespace MextFullStackSaas.Infrastructure.Services
         {
             var encodedEmail = Uri.EscapeDataString(emailDto.Email);
             var encodedToken = Uri.EscapeDataString(emailDto.Token);
-            var link = $"{ApiBaseUrl}UsersAuth/reset-password?email={encodedEmail}&token={encodedToken}";
+            var link = $"{WebAppBaseUrl}UsersAuth/reset-password?email={encodedEmail}&token={encodedToken}";
 
             var htmlContent = $"<div><a href=\"{link}\" target=\"_blank\">Click here</a> to reset your password.</div>";
 
