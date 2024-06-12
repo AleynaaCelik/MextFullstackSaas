@@ -1,0 +1,13 @@
+﻿@page "/verify-email"
+<h3 class="text-red-500">@Email</h3>
+<h3 class="mt-1 text-indigo-500">@Token</h3>
+
+@code {
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string Email{ get; set; }
+
+    [SupplyParameterFromQuery]
+    [Parameter]
+    public string Token{ get; set; }       
+}

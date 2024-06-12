@@ -1,5 +1,6 @@
 using Blazored.Toast;
 using MextFullStackSaas.WasmClientt;
+using MextFullStackSaas.WasmClientt.Services;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 
@@ -11,6 +12,8 @@ var apiUrl=builder.Configuration.GetSection("ApiUrl").Value;
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiUrl) });
 
+
 builder.Services.AddBlazoredToast();
+builder.Services.AddScoped<IToasterService, BlazoredToasterManager>();
 
 await builder.Build().RunAsync();
