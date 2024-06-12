@@ -2,10 +2,10 @@
 @using System.Net
 @using MextFullStackSaas.Application.Common.Models
 @using MextFullStackSaas.Application.Features.UserAuth.Commands.Register
+@using MextFullStackSaas.WasmClientt.Services
 @using MextFullstackSaaS.Application.Common.Models
-
 @inject HttpClient HttpClient
-
+@inject IToasterService  ToasterService
 <section class="from-[#FC354C] to-[#0072ff] min-h-screen bg-gradient-to-r py-10 sm:py-10 lg:py-10">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div class="mx-auto max-w-2xl text-center">
@@ -87,7 +87,7 @@
                             <div>
                                 @if (isLoading)
                                 {
-                                    <button disabled="disabled" type="submit" class="inline-flex w-full items-center justify-center rounded-md bg-gradient-to-r from-cyan-400 to-pink-600 px-4 py-4 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none">Register</button>
+                                    <button disabled="disabled" type="submit" class="inline-flex w-full items-center justify-center rounded-md bg-gray-500 to-pink-600 px-4 py-4 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none">Loading...</button>
                                 }
                                 else
                                 {
@@ -97,11 +97,11 @@
                             <div>
                                 @if (isLoading)
                                 {
-                                    <button disabled="disabled" class="inline-flex w-full items-center justify-center rounded-md bg-gray-900 px-4 py-4 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none">
+                                    <button disabled="disabled" class="inline-flex w-full items-center justify-center rounded-md bg-gray-500 px-4 py-4 text-base font-semibold text-white transition-all duration-200 hover:opacity-90 focus:outline-none">
                                         <svg class="mr-2 h-5 w-5" aria-hidden="true" focusable="false" data-prefix="fab" data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
                                             <path fill="currentColor" d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z"></path>
                                         </svg>
-                                        Sign in with Google
+                                        Loading...
                                     </button>
                                 }
                                 else
@@ -142,19 +142,20 @@
             if (response.IsSuccessStatusCode)
             {
                 var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<JwtDto>>();
+                ToasterService.ShowSuccess(responseDto.Message);
 
-                Console.WriteLine(responseDto.Message);
             }
             else
             {
-                var error = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(error);
+                ToasterService.ShowError($"Beklenmedik bir hata oluştu-Response Code:{response.StatusCode}");
+                // var error = await response.Content.ReadAsStringAsync();
+                // Console.WriteLine(error);
             }
 
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ToasterService.ShowError(e.Message);
             isLoading = false;
         }
         finally
