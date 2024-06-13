@@ -6,10 +6,12 @@
 @using MextFullStackSaas.Application.Features.UserAuth.Commands.Register
 @using MextFullStackSaas.WasmClientt.Services
 @using MextFullstackSaaS.Application.Common.Models
+@using Microsoft.AspNetCore.Components.Authorization
 @inject HttpClient HttpClient
 @inject IToasterService ToasterService
 @inject ILocalStorageService LocalStorage
 @inject NavigationManager NavigationManager
+@inject AuthenticationStateProvider AuthStateProvider
 @* Login page container with gradient background *@
 <section class="from-[#FC354C] to-[#0072ff] min-h-screen bg-gradient-to-r py-10 sm:py-16 lg:py-24">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -124,6 +126,10 @@
             {
                 var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<JwtDto>>();
                 await LocalStorage.SetItemAsync<JwtDto>("cto", responseDto.Data);
+                await AuthStateProvider.GetAuthenticationStateAsync();
+
+                //Authentication 
+
                 ToasterService.ShowSuccess(responseDto.Message);
                 NavigationManager.NavigateTo("/");
             }
