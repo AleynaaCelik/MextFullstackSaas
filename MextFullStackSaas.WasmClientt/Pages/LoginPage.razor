@@ -73,10 +73,21 @@
 </section>
 
 @code {
+    [CascadingParameter]
+    private Task<AuthenticationState>authenticationStateTask{ get; set; }
+
     private UserAuthLoginCommand command = new();
     private bool isLoading = false;
     private List<ErrorDto> errors = new List<ErrorDto>();
 
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await authenticationStateTask;
+        if (authState.User.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+    }
     private async Task HandleSubmit()
     {
         try
