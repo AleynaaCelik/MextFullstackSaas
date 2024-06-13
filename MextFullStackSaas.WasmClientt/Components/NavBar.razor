@@ -33,23 +33,31 @@
                 <li><a>Item 3</a></li>
             </ul>
         </div>
-        <a class="btn btn-ghost text-xl">IconBuilderAI</a>
+        <NavLink class="btn btn-ghost text-xl" href="/">
+            IconBuilderAI
+        </NavLink>
     </div>
     <div class="navbar-center hidden lg:flex">
-        <ul class="menu menu-horizontal px-1">
-            <li>
+        <ul class="menu menu-horizontal px-2">
+            <li class="mr-3">
                 <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
+                    <span aria-hidden="true">
+                        <OiHomeIcon />
+                    </span> Home
                 </NavLink>
             </li>
-            <li>
+            <li class="mr-3">
                 <NavLink class="nav-link" href="generate">
-                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Generate
+                    <span aria-hidden="true">
+                        <OiPikachuIcon />
+                    </span> Generate
                 </NavLink>
             </li>
             <li>
                 <NavLink class="nav-link" href="community">
-                    <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Community
+                    <span aria-hidden="true">
+                        <OiHeartIcon />
+                    </span> Community
                 </NavLink>
             </li>
 
