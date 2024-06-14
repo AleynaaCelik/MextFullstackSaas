@@ -1,7 +1,32 @@
 ﻿@page "/generate"
+@using MextFullStackSaas.Application.Features.Orders.Commands.Add
 
-<h3>GeneratePage</h3>
+<div class="flex min-h-screen items-center justify-center text-white">
+    <div class="rounded-lg p-6 shadow-xl">
+        <h1 class="mb-4 text-2xl font-bold">Let's generate your icon. ✨</h1>
+        <p class="mb-4">Your results may vary. We are working on fine-tuning results for each style. Here are some tips to make better icons:</p>
+        <ul class="list-disc space-y-2 pl-6">
+            <li>Do not ask for words or letters, AI does not generate characters and words correctly</li>
+            <li>Simple prompts often work best</li>
+            <li>Use variants once you find a starting icon you like</li>
+            <li>Experiment with adding words, such as happy or vibrant</li>
+        </ul>
+        <EditForm FormName="icon-generate-form"Model="@command">
+        <div class="mt-6">
+            <label class="mb-2 block text-sm font-medium text-gray-400" for="iconDescription">
+                1. Describe your icon using a noun and adjective
+            </label>
+            <input class="w-full rounded-lg border border-blue-500 bg-gray-800 p-2 text-white"
+                   type="text"
+                   id="iconDescription"
+                   placeholder="an angry chicken"
+                   @bind-value=@command.IconDescription/>
+        </div>
+        </EditForm>
+    </div>
+</div>
 
 @code {
+    private OrderAddCommand command = new OrderAddCommand();
 
 }
