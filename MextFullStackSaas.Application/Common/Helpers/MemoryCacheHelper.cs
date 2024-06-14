@@ -9,8 +9,8 @@ namespace MextFullStackSaas.Application.Common.Helpers
 {
     public static class MemoryCacheHelper
     {
-        public static string OrdersGetAllKey = "OrdersGetAllList";
-        public static string OrdersGetByIdKey(Guid id) => $"OrdersGetById_{id}";
+        public static string GetOrdersGetAllKey(Guid userId) => $"OrdersGetAll_{userId}";
+        public static string GetOrderGetByIdKey(Guid id) => $"OrderGetById_{id}";
         public static MemoryCacheEntryOptions GetMemoryCacheEntryOptions() 
         {
             return new MemoryCacheEntryOptions()

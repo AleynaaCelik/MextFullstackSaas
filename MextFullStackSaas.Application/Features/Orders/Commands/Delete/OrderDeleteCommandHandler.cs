@@ -5,6 +5,10 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
+using MextFullStackSaas.Application.Common.Helpers;
+using MextFullStackSaas.Application.Features.Orders.Queries.GetById;
+using MextFullStackSaas.Application.Features.Orders.Queries.GetAll;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
 {
@@ -12,11 +16,12 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
     {
         private readonly IApplicationDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
-
-        public OrderDeleteCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService)
+        private readonly IMemoryCache _memoryCache;
+        public OrderDeleteCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService,IMemoryCache memoryCache)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;
+            _memoryCache= memoryCache;
         }
 
         public async Task<ResponseDto<Guid>> Handle(OrderDeleteCommand request, CancellationToken cancellationToken)
@@ -27,7 +32,13 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
 
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync(cancellationToken);
-
+            if (_memoryCache.TryGetValue(MemoryCacheHelper.GetOrderGetByIdKey(request.Id), out OrderGetByIdDto orderGetByIdDto))
+                _memoryCache.Remove(MemoryCacheHelper.GetOrderGetByIdKey(request.Id));
+            if(_memoryCache.TryGetValue(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),out List<OrderGetAllDto> orders))
+            {
+                orders=orders.Where(x=>x.Id!=request.Id).ToList();
+                _memoryCache.Set(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),orders,MemoryCacheHelper.GetMemoryCacheEntryOptions());
+            }
             return new ResponseDto<Guid>(order.Id, "Order deleted successfully");
         }
     }

@@ -17,16 +17,17 @@ namespace MextFullStackSaas.Application.Features.Orders.Queries.GetAll
         private readonly IApplicationDbContext _applicationDbContext;
         private readonly IMemoryCache _memoryCache;
          
-        public OrderGetAllQueryHandler(ICurrentUserService currentUserService, IApplicationDbContext applicationDbContext)
+        public OrderGetAllQueryHandler(ICurrentUserService currentUserService, IApplicationDbContext applicationDbContext,IMemoryCache memoryCache)
         {
             _currentUserService = currentUserService;
             _applicationDbContext = applicationDbContext;
+            _memoryCache = memoryCache;
         }
 
         public async Task<List<OrderGetAllDto>> Handle(OrderGetAllQuery request, CancellationToken cancellationToken)
         {
             List<OrderGetAllDto> orders;
-            if (_memoryCache.TryGetValue(MemoryCacheHelper.OrdersGetAllKey,out orders)) return orders;
+            if (_memoryCache.TryGetValue(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),out orders)) return orders;
                
             
             orders=await _applicationDbContext
@@ -34,6 +35,11 @@ namespace MextFullStackSaas.Application.Features.Orders.Queries.GetAll
                  .Where(x => x.UserId == _currentUserService.UserId)
                  .Select(o => OrderGetAllDto.FromOrder(o))
                  .ToListAsync(cancellationToken);
+            _memoryCache.Set(
+        MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),
+        orders,
+        MemoryCacheHelper.GetMemoryCacheEntryOptions()
+    );
             return orders;
         }
     }

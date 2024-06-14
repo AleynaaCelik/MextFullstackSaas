@@ -1,8 +1,11 @@
 ﻿using MediatR;
 using MextFullstackSaaS.Application.Common.Models;
+using MextFullStackSaas.Application.Common.Helpers;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models.OpenAI;
 using MextFullStackSaas.Application.Features.Orders.Commands.Add;
+using MextFullStackSaas.Application.Features.Orders.Queries.GetAll;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
 {
@@ -11,12 +14,13 @@ namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
         private readonly IApplicationDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
         private readonly IOpenAIService _openAiService;
-
-        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService, IOpenAIService openAiService)
+        private readonly IMemoryCache _memoryCache;
+        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService, IOpenAIService openAiService,IMemoryCache memoryCache)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;
             _openAiService = openAiService;
+            _memoryCache = memoryCache;
         }
 
         public async Task<ResponseDto<Guid>> Handle(OrderAddCommand request, CancellationToken cancellationToken)
@@ -35,6 +39,11 @@ namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
 
             await _dbContext.SaveChangesAsync(cancellationToken);
 
+            if(_memoryCache.TryGetValue(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),out List<OrderGetAllDto>orders))
+            {
+                orders.Add(OrderGetAllDto.FromOrder(order));
+                _memoryCache.Set(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),order,MemoryCacheHelper.GetMemoryCacheEntryOptions());
+            }
             return new ResponseDto<Guid>(order.Id, "Your order completed successfully.");
         }
     }
