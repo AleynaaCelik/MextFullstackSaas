@@ -28,6 +28,7 @@
 
   <ItemGroup>
     <None Include="Pages\LoginPage.razor" />
+    <None Include="wwwroot\images\DesignType\.DS_Store" />
   </ItemGroup>
 
   <ItemGroup>

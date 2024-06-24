@@ -10,7 +10,7 @@ namespace MextFullstackSaas.Domain.Enums
     {
         Square=1,
         Circle=2,
-        Trainagle=3,
+        Triangle = 3,
         Star=4,
         Heart=5,
     }
