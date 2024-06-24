@@ -387,17 +387,19 @@
         command.Quantity = 1;
         try {
             isLoading = true;
-              Console.WriteLine($"IconDescription: {command.IconDescription}, ColourCode: {command.ColourCode}, DesignType: {command.DesignType}, Shape: {command.Shape}, Size: {command.Size}, Model: {command.Model}, Quantity: {command.Quantity}");
+            Console.WriteLine($"IconDescription: {command.IconDescription}, ColourCode: {command.ColourCode}, DesignType: {command.DesignType}, Shape: {command.Shape}, Size: {command.Size}, Model: {command.Model}, Quantity: {command.Quantity}");
 
-  
+
             var response = await HttpClient.PostAsJsonAsync("Orders", command);
             if (response.IsSuccessStatusCode)
             {
-             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<Guid>>();
-            ToasterService.ShowSuccess(responseDto.Message);
-             isValidSubmit = true;
-        
-            command = new OrderAddCommand();
+                var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<Guid>>();
+                ToasterService.ShowSuccess(responseDto.Message);
+                isValidSubmit = true;
+
+                command = new OrderAddCommand();
+
+                NavigationManager.NavigateTo($"/show-icon/{responseDto.Data}");
             }
             else
             {

@@ -1,19 +1,46 @@
 ﻿@page "/show-icon/{OrderId:guid}"
+@using MextFullstackSaaS.Application.Features.Orders.Queries.GetById
 
-<h3>ShowIconPage</h3>
-@if (order is null){
-    <Loading/>
+@if (order is null)
+{
+    <Loading />
 }
-else{
+else
+{
+    <div class="hero bg-base-200 min-h-screen">
+        <div class="hero-content text-center">
+            <div class="max-w-md">
+                <h1 class="text-3xl font-bold">Your Generated Icons</h1>
+                <div class="card bg-base-100 shadow-xl">
+                    <div class="card-title flex justify-center items-center mt-2">
+                        <h2 class="text-lg font-bold">@order.IconDescription</h2>
+                    </div>
+                    <div class="card-body flex justify-center items-center">
+                        <img class="w-[25rem]"
+                             src="@order.Urls[0]"
+                             alt="@order.IconDescription" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
-}
 @code {
     [Parameter]
     public Guid OrderId { get; set; }
+
     private OrderGetByIdDto order = null;
 
     protected override async Task OnInitializedAsync()
     {
+        order = new OrderGetByIdDto()
+            {
+                Id = new Guid("19cf58da-509b-44ed-9fc9-1f187422490b"),
+                IconDescription = "a beautful mockingjay",
+                Urls = ["https://oaidalleapiprodscus.blob.core.windows.net/private/org-DPO6CJx7hKk9rvSN4Cwp4nXj/user-XUxPG3Ahv1pkcITBYOEcn63V/img-1D6Ku3hruS4IzVM8m0BB1H3W.png?st=2024-06-24T07%3A06%3A28Z&se=2024-06-24T09%3A06%3A28Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-06-24T00%3A27%3A32Z&ske=2024-06-25T00%3A27%3A32Z&sks=b&skv=2023-11-03&sig=rdJ4hSWd/5K2sGnVRQEKnw4try1x0D1wHNX2GAeerrU%3D"]
+            };
+
         await base.OnInitializedAsync();
     }
 
