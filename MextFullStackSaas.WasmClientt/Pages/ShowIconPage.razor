@@ -1,7 +1,20 @@
-﻿@page "/show-icon"
+﻿@page "/show-icon/{OrderId:guid}"
 
 <h3>ShowIconPage</h3>
+@if (order is null){
+    <Loading/>
+}
+else{
 
+}
 @code {
+    [Parameter]
+    public Guid OrderId { get; set; }
+    private OrderGetByIdDto order = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+    }
 
 }
