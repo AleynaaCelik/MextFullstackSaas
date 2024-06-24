@@ -28,7 +28,7 @@
                 <li class="my-4">Experiment with adding words, such as happy or vibrant</li>
             </ol>
         </div>
-        <EditForm Model="@command" OnValidSubmit="@SubmitForm"  class="w-full md:w-[700px] flex flex-col  gap-6">
+        <EditForm Model="@command"   class="w-full md:w-[700px] flex flex-col  gap-6">
               <DataAnnotationsValidator />
             <ValidationSummary class="mb-1 text-red-500" />
             @* Icon Description *@
@@ -246,7 +246,7 @@
             <AuthorizeView>
                 <Authorized Context="authorizedContext">
                     <div class="mt-8">
-                        <button class="btn btn-primary text-white px-4 py-2" type="submit">
+                        <button class="btn btn-primary text-white px-4 py-2" @onclick="SubmitForm">
                             Generate Icon
                         </button>
                     </div>
@@ -279,17 +279,17 @@
 
 @code {
 
-      [CascadingParameter]
+    [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
-         private bool IsAuthenticated = false;
-   protected override async Task OnInitializedAsync()
-          
+    private bool IsAuthenticated = false;
+    protected override async Task OnInitializedAsync()
+
     {
-      await base.OnInitializedAsync();
+        await base.OnInitializedAsync();
         var authState = await authenticationStateTask;
         IsAuthenticated = authState.User.Identity.IsAuthenticated;
     }
-     private void NavigateToLogin()
+    private void NavigateToLogin()
     {
         NavigationManager.NavigateTo("/login");
     }
@@ -297,13 +297,13 @@
     private string generatedIconUrl;
     private ColorOption selectedColorOption = ColorOption.Predefined;
     private string SelectedColor;
- 
+
     private DesignType selectedDesignType;
     private IconSize selectedIconSize;
     private IconShape selectedShape;
     private string IconDescription;
 
-        private readonly string[] PredefinedColors = 
+    private readonly string[] PredefinedColors = 
 {
 "#1fb6ff", "#7e5bef", "#ff49db", "#ff7849", "#13ce66",
 "#ffc82c", "#8492a6", "#d3dce6", "#273444", "#f56565",
@@ -339,7 +339,7 @@
 { DesignType.Chalkboard, "/images/DesignType/chalkboard.png" },
 { DesignType.Woodcut, "/images/DesignType/woodcut.png" }
 };
-  private void SelectColorOption(ColorOption option)
+    private void SelectColorOption(ColorOption option)
     {
         selectedColorOption = option;
         if (option == ColorOption.Predefined)
@@ -384,6 +384,7 @@
 
     private async Task SubmitForm()
     {
+        command.Quantity = 1;
         try {
             isLoading = true;
               Console.WriteLine($"IconDescription: {command.IconDescription}, ColourCode: {command.ColourCode}, DesignType: {command.DesignType}, Shape: {command.Shape}, Size: {command.Size}, Model: {command.Model}, Quantity: {command.Quantity}");
