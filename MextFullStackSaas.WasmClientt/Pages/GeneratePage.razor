@@ -28,7 +28,7 @@
                 <li class="my-4">Experiment with adding words, such as happy or vibrant</li>
             </ol>
         </div>
-        <EditForm Model="@command"  class="w-full md:w-[700px] flex flex-col  gap-6">
+        <EditForm Model="@command" OnValidSubmit="@SubmitForm"  class="w-full md:w-[700px] flex flex-col  gap-6">
               <DataAnnotationsValidator />
             <ValidationSummary class="mb-1 text-red-500" />
             @* Icon Description *@
@@ -243,19 +243,24 @@
                 </div>
             }
 
-            @if (IsAuthenticated){
-                      <div class="mt-8">
-                <button class="btn btn-primary text-white px-4 py-2  "  @onclick="SubmitForm">
-                    Generate Icon
-                </button>
-            </div>
-            }
-             else
-            {
-                <button class="btn btn-secondary text-white px-4 py-2" @onclick="NavigateToLogin">
-                    Go to Login
-                </button>
-            }
+            <AuthorizeView>
+                <Authorized Context="authorizedContext">
+                    <div class="mt-8">
+                        <button class="btn btn-primary text-white px-4 py-2" type="submit">
+                            Generate Icon
+                        </button>
+                    </div>
+                </Authorized>
+                <NotAuthorized Context="authorizedContext">
+                    <div class="mt-8">
+                        <button class="btn btn-secondary text-white px-4 py-2" @onclick="NavigateToLogin">
+                            Go to Login
+                        </button>
+                    </div>
+                </NotAuthorized>
+            </AuthorizeView>
+
+           
             
         
           
@@ -384,10 +389,10 @@
               Console.WriteLine($"IconDescription: {command.IconDescription}, ColourCode: {command.ColourCode}, DesignType: {command.DesignType}, Shape: {command.Shape}, Size: {command.Size}, Model: {command.Model}, Quantity: {command.Quantity}");
 
   
-            var response = await HttpClient.PostAsJsonAsync("/api/Orders", command);
+            var response = await HttpClient.PostAsJsonAsync("Orders", command);
             if (response.IsSuccessStatusCode)
             {
-             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<JwtDto>>();
+             var responseDto = await response.Content.ReadFromJsonAsync<ResponseDto<Guid>>();
             ToasterService.ShowSuccess(responseDto.Message);
              isValidSubmit = true;
         
