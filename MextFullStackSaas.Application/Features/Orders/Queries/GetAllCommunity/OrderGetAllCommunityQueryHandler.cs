@@ -13,9 +13,21 @@ namespace MextFullStackSaas.Application.Features.Orders.Queries.GetAllCommunity
     {
         private readonly IApplicationDbContext _applicationDbContext;
 
-        public Task<List<string>> Handle(OrderGetAllCommunityQuery request, CancellationToken cancellationToken)
+        public async Task<List<string>> Handle(OrderGetAllCommunityQuery request, CancellationToken cancellationToken)
         {
-            return _applicationDbContext.Orders.AsNoTracking().SelectMany(x=>x.Urls).ToListAsync(cancellationToken);
+            var urlsLists = await _applicationDbContext
+                .Orders
+                .AsNoTracking()
+                .Select(x=>x.Urls)
+                .ToListAsync(cancellationToken);
+
+            var urls=urlsLists
+                .SelectMany(x=>x)
+                .ToList();
+
+
+           // Orderların listelerini tek bir stringe atmak için
+            return urls;
         }
     }
 }

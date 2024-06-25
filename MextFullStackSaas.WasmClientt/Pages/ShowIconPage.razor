@@ -1,7 +1,8 @@
 ﻿@page "/show-icon/{OrderId:guid}"
-@using MextFullstackSaaS.Application.Features.Orders.Queries.GetById
+@using MextFullStackSaas.Application.Features.Orders.Queries.GetById
+
 @inject HttpClient HttpClient
-@if (order is null)
+@if (order == null)
 {
     <Loading />
 }
@@ -38,14 +39,12 @@ else
         {
             order = await HttpClient.GetFromJsonAsync<OrderGetByIdDto>($"Orders/{OrderId}");
         }
-        catch(Exception e)
+        catch (Exception e)
         {
-            Console.Writeline(e);
+            Console.WriteLine(e);
             throw;
         }
-      
 
         await base.OnInitializedAsync();
     }
-
 }
