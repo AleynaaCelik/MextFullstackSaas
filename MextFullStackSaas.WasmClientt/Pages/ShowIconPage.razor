@@ -1,6 +1,6 @@
 ﻿@page "/show-icon/{OrderId:guid}"
 @using MextFullstackSaaS.Application.Features.Orders.Queries.GetById
-
+@inject HttpClient HttpClient
 @if (order is null)
 {
     <Loading />
@@ -34,12 +34,16 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        order = new OrderGetByIdDto()
-            {
-                Id = new Guid("19cf58da-509b-44ed-9fc9-1f187422490b"),
-                IconDescription = "a beautful mockingjay",
-                Urls = ["https://oaidalleapiprodscus.blob.core.windows.net/private/org-DPO6CJx7hKk9rvSN4Cwp4nXj/user-XUxPG3Ahv1pkcITBYOEcn63V/img-1D6Ku3hruS4IzVM8m0BB1H3W.png?st=2024-06-24T07%3A06%3A28Z&se=2024-06-24T09%3A06%3A28Z&sp=r&sv=2023-11-03&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2024-06-24T00%3A27%3A32Z&ske=2024-06-25T00%3A27%3A32Z&sks=b&skv=2023-11-03&sig=rdJ4hSWd/5K2sGnVRQEKnw4try1x0D1wHNX2GAeerrU%3D"]
-            };
+        try
+        {
+            order = await HttpClient.GetFromJsonAsync<OrderGetByIdDto>($"Orders/{OrderId}");
+        }
+        catch(Exception e)
+        {
+            Console.Writeline(e);
+            throw;
+        }
+      
 
         await base.OnInitializedAsync();
     }
