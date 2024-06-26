@@ -42,6 +42,12 @@ else
             .WithAutomaticReconnect()
             .Build();
 
+        hubConnection.On<List<string>>("NewOrderAdded", (newUrls) =>
+        {
+            urls.AddRange(newUrls);
+            InvokeAsync(StateHasChanged);
+        });
+
         await hubConnection.StartAsync();
 
         urls = await hubConnection.InvokeAsync<List<string>>("GetAllCommunityAsync");
