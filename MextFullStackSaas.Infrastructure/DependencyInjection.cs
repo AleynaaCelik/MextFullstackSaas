@@ -23,6 +23,8 @@ namespace MextFullStackSaas.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection")));
 
             services.Configure<JwtSettings>(JwtSettings=>configuration.GetSection("JwtSettings").Bind(JwtSettings));
+            services.Configure<GoogleSettings>(googleSettings=>configuration.GetSection("GoogleSettings").Bind(googleSettings));
+
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequireDigit = false;

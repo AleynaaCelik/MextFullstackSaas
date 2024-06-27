@@ -1,4 +1,5 @@
 ﻿@page "/login"
+@layout AuthLayout
 @using System.Net
 @using System.ComponentModel.DataAnnotations
 @using Blazored.LocalStorage
@@ -136,6 +137,7 @@
     private async Task HandleCreateAccount()
     {
         // Ücretsiz hesap oluşturma işlemini burada gerçekleştirin
+        NavigationManager.NavigateTo("/register");
     }
 
     internal class LoginModel
