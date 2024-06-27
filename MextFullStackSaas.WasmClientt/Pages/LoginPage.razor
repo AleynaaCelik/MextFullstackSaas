@@ -28,7 +28,7 @@
                     <EditForm Model="@command" OnSubmit="HandleSubmit" FormName="loginform">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="mb-1 text-red-500" />
-                        <ErrorList Errors="errors"/>
+                        <ErrorList Errors="errors" />
                         <div class="space-y-5">
                             <div>
                                 <label class="text-base font-medium text-gray-900"> E-posta Adresi </label>
@@ -75,7 +75,7 @@
 
 @code {
     [CascadingParameter]
-    private Task<AuthenticationState>authenticationStateTask{ get; set; }
+    private Task<AuthenticationState> authenticationStateTask { get; set; }
 
     private UserAuthLoginCommand command = new();
     private bool isLoading = false;
@@ -127,6 +127,7 @@
     private async Task HandleGoogleLogin()
     {
         // Google ile giriş yapma işlemini burada gerçekleştirin
+        NavigationManager.NavigateTo("https://localhost:7030/api/UsersAuth/signin-google-start");
     }
 
     private async Task HandleForgotPassword()

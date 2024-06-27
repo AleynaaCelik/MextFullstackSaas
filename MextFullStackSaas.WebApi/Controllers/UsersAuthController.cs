@@ -34,7 +34,7 @@ namespace MextFullStackSaas.WebApi.Controllers
                                          $"redirect_uri={RedirectUri}";
         }
 
-        [HttpGet("google-signin-start")]
+        [HttpGet("signin-google-start")]
         public IActionResult GoogleSignInStart()
         => Redirect(_googleAutherizationUrl);
         
