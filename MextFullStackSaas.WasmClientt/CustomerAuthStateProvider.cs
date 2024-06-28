@@ -1,6 +1,7 @@
 ﻿using Blazored.LocalStorage;
 using MextFullStackSaas.Application.Common.Models;
 using MextFullStackSaas.Application.Helpers;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Headers;
 using System.Security.Claims;
@@ -24,27 +25,40 @@ namespace MextFullStackSaas.WasmClientt
 
             if (jwtDto is not null)
             {
-                var claims = JwtHelper
-                    .ReadClaimsFromToken(jwtDto.Token)
-                    .Append(new Claim("Token", jwtDto.Token));
+                if (jwtDto.Expires < DateTime.UtcNow)
+                {
+                    await _localStorageService.RemoveItemAsync("cto");
+                }
+                else
+                {
+                    var claims = JwtHelper
+                        .ReadClaimsFromToken(jwtDto.Token)
+                        .Append(new Claim("Token", jwtDto.Token));
 
-                var identity = new ClaimsIdentity(claims, "jwt");
+                    var identity = new ClaimsIdentity(claims, "jwt");
 
-                var user = new ClaimsPrincipal(identity);
+                    var user = new ClaimsPrincipal(identity);
 
-                var state = new AuthenticationState(user);
-                _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtDto.Token);
+                    var state = new AuthenticationState(user);
 
-                NotifyAuthenticationStateChanged(Task.FromResult(state));
+                    _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwtDto.Token);
 
-                return state;
+                    NotifyAuthenticationStateChanged(Task.FromResult(state));
+
+                    return state;
+                }
             }
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
 
             var anonymous = new ClaimsPrincipal(new ClaimsIdentity());
 
-            return new AuthenticationState(anonymous);
+            var anonymousState = new AuthenticationState(anonymous);
+
+            NotifyAuthenticationStateChanged(Task.FromResult(anonymousState));
+
+            return anonymousState;
         }
     }
 }
+

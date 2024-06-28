@@ -20,16 +20,18 @@
 
     protected override async Task OnInitializedAsync()
     {
-        var jwtDto = new JwtDto
+        var jwtDto = new MextFullStackSaas.Application.Common.Models.JwtDto
             {
                 Token = AccessToken,
                 Expires = DateTime.FromBinary(ExpiryDate)
             };
 
-        await LocalStorage.SetItemAsync<JwtDto>("cto", jwtDto);
+        await LocalStorage.SetItemAsync<MextFullStackSaas.Application.Common.Models.JwtDto>("cto", jwtDto);
+
         await AuthStateProvider.GetAuthenticationStateAsync();
 
-        ToasterService.ShowSuccess("Welcome! You have successfully logged in");
+        ToasterService.ShowSuccess("Welcome! You have successfully logged in.");
+
         NavigationManager.NavigateTo("/");
 
         await base.OnInitializedAsync();

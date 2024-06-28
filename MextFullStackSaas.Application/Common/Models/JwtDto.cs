@@ -8,8 +8,9 @@ namespace MextFullStackSaas.Application.Common.Models
 {
     public class JwtDto
     {
-        public string Token { get; set; }
-        public DateTime Expires { get; set; }
+        public JwtDto()
+        {
+        }
 
         public JwtDto(string token, DateTime expires)
         {
@@ -17,9 +18,8 @@ namespace MextFullStackSaas.Application.Common.Models
             Expires = expires;
         }
 
-        public JwtDto()
-        {
+        public string Token { get; set; }
+        public DateTime Expires { get; set; }
 
-        }
     }
 }
