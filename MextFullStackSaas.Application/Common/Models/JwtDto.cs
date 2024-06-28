@@ -11,12 +11,15 @@ namespace MextFullStackSaas.Application.Common.Models
         public string Token { get; set; }
         public DateTime Expires { get; set; }
 
-        public JwtDto(string token,DateTime expires) {
+        public JwtDto(string token, DateTime expires)
+        {
             Token = token;
-            Expires=expires;
-        
+            Expires = expires;
         }
-        public JwtDto() { }
 
+        public JwtDto()
+        {
+
+        }
     }
 }

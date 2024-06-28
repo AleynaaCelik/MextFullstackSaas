@@ -1,4 +1,5 @@
-﻿using MextFullstackSaas.Domain.Entities;
+﻿using System.Net;
+using MextFullstackSaas.Domain.Entities;
 using MextFullstackSaas.Domain.Identity;
 using MextFullstackSaaS.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Common.Interfaces;
@@ -6,6 +7,7 @@ using MextFullStackSaas.Application.Common.Models;
 using MextFullStackSaas.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
+using MextFullStackSaas.Application.Features.UserAuth.Commands.SocialLogin;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.VerifiyEmail;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -21,13 +23,11 @@ namespace MextFullStackSaas.Infrastructure.Services
     {
         private readonly IJwtService _jwtService;
         private readonly UserManager<User> _userManager;
-       
 
         public IdentityManager(IJwtService jwtService, UserManager<User> userManager)
         {
             _jwtService = jwtService;
             _userManager = userManager;
-            
         }
 
         public async Task<UserAuthRegisterResponseDto> RegisterAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
@@ -39,7 +39,7 @@ namespace MextFullStackSaas.Infrastructure.Services
                 throw new Exception("User registration failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
             }
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user); // Token oluşturmak için yeni 
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
             return new UserAuthRegisterResponseDto(user.Id, user.Email, user.FirstName, token);
         }
@@ -88,9 +88,6 @@ namespace MextFullStackSaas.Infrastructure.Services
 
             // E-postayı gönder
             return new UserAuthResetPasswordResponseDto(user.Id, user.Email, user.FirstName, token);
-
-
-
         }
 
         public async Task<bool> ResetPasswordAsync(string email, string token, string newPassword)
@@ -98,6 +95,25 @@ namespace MextFullStackSaas.Infrastructure.Services
             var user = await _userManager.FindByEmailAsync(email);
             var result = await _userManager.ResetPasswordAsync(user, token, newPassword);
             return result.Succeeded;
+        }
+
+        public async Task<JwtDto> SocialLoginAsync(UserAuthSocialLoginCommand command, CancellationToken cancellationToken)
+        {
+            User? user = await _userManager.FindByEmailAsync(command.Email);
+
+            if (user == null)
+            {
+                user = UserAuthSocialLoginCommand.ToUser(command);
+                var result = await _userManager.CreateAsync(user);
+
+                if (!result.Succeeded)
+                {
+                    throw new Exception("User social login registration failed: " + string.Join(", ", result.Errors.Select(e => e.Description)));
+                }
+            }
+
+            var jwtDto = await _jwtService.GenerateTokenAsync(user.Id, user.Email, cancellationToken);
+            return jwtDto;
         }
     }
 }
