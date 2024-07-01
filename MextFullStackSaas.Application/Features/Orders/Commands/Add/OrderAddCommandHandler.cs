@@ -16,12 +16,14 @@ namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
         private readonly IOpenAIService _openAiService;
         private readonly IMemoryCache _memoryCache;
         private readonly IOrderHubService _orderHubService;
-        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService, IOpenAIService openAiService,IMemoryCache memoryCache)
+        private readonly IObjectStorageService _objectStorageService;
+        public OrderAddCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService, IOpenAIService openAiService,IMemoryCache memoryCache,IObjectStorageService objectStorageService)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;
             _openAiService = openAiService;
             _memoryCache = memoryCache;
+            _objectStorageService = objectStorageService;
         }
 
         public async Task<ResponseDto<Guid>> Handle(OrderAddCommand request, CancellationToken cancellationToken)
@@ -29,10 +31,14 @@ namespace MextFullstackSaaS.Application.Features.Orders.Commands.Add
             var order = OrderAddCommand.MapToOrder(request);
 
             order.UserId = _currentUserService.UserId;
-            order.CreatedByUserId = _currentUserService.UserId.ToString();
-            order.Urls =
+            //order.CreatedByUserId = _currentUserService.UserId.ToString();
+            var base64Images=
                 await _openAiService.DallECreateIconAsync(DallECreateIconRequestDto.MapFromOrderAddCommand(request),
                     cancellationToken);
+            // UploadImageAsync metodu zaten List<string> döndürüyor
+
+            order.Urls = await _objectStorageService.UploadImagesAsync(base64Images, cancellationToken);
+
 
             /* TODO: Make Request to the Gemine or Dall-e 3 */
 

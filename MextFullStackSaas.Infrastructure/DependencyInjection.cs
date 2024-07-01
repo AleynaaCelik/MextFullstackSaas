@@ -53,6 +53,7 @@ namespace MextFullStackSaas.Infrastructure
             services.AddScoped<IJwtService, JwtManager>();
             services.AddScoped<IIdentityService, IdentityManager>();
             services.AddScoped<IEmailService, ResendEmailManager>();
+            services.AddScoped<IObjectStorageService, GoogleObjectStorageManager>();
 
             //OpenAI
             services.AddOpenAIService(settings => settings.ApiKey = configuration.GetSection("OpenAIApiKey").Value!);
