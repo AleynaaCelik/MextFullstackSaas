@@ -17,11 +17,13 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
         private readonly IApplicationDbContext _dbContext;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMemoryCache _memoryCache;
-        public OrderDeleteCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService,IMemoryCache memoryCache)
+        private readonly IObjectStorageService _objectStorageService;
+        public OrderDeleteCommandHandler(IApplicationDbContext dbContext, ICurrentUserService currentUserService,IMemoryCache memoryCache, IObjectStorageService objectStorageService)
         {
             _dbContext = dbContext;
             _currentUserService = currentUserService;
-            _memoryCache= memoryCache;
+            _memoryCache = memoryCache;
+            _objectStorageService = objectStorageService;
         }
 
         public async Task<ResponseDto<Guid>> Handle(OrderDeleteCommand request, CancellationToken cancellationToken)
@@ -32,6 +34,8 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Delete
 
             _dbContext.Orders.Remove(order);
             await _dbContext.SaveChangesAsync(cancellationToken);
+
+            await _objectStorageService.RemoveAsync(order.Urls, cancellationToken);
             if (_memoryCache.TryGetValue(MemoryCacheHelper.GetOrderGetByIdKey(request.Id), out OrderGetByIdDto orderGetByIdDto))
                 _memoryCache.Remove(MemoryCacheHelper.GetOrderGetByIdKey(request.Id));
             if(_memoryCache.TryGetValue(MemoryCacheHelper.GetOrdersGetAllKey(_currentUserService.UserId),out List<OrderGetAllDto> orders))

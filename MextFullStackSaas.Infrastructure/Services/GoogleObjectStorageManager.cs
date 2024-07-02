@@ -20,6 +20,24 @@ namespace MextFullStackSaas.Infrastructure.Services
             _credential = GoogleCredential.FromFile("C:\\Users\\DELL\\Desktop\\Storage\\capable-country-428107-i0-1b2aa5c59930.json");
         }
 
+        public async Task<bool> RemoveAsync(string key, CancellationToken cancellationToken)
+        {
+            using var storage = await StorageClient.CreateAsync(_credential);
+            await storage.DeleteObjectAsync(BucketName, key, cancellationToken: cancellationToken);
+            return true;
+        }
+
+        public async  Task<bool> RemoveAsync(List<string> keys, CancellationToken cancellationToken)
+        {
+            using var storage = await StorageClient.CreateAsync(_credential);
+
+            var deleteTasks = keys.Select(key => storage.DeleteObjectAsync(BucketName, key, cancellationToken: cancellationToken));
+
+            await Task.WhenAll(deleteTasks);
+
+            return true;
+        }
+
         public async Task<string> UploadImageAsync(string imageData, CancellationToken cancellationToken)
         {
             // Convert the base64 string to byte array
