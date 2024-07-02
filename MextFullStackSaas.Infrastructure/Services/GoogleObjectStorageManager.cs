@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -22,9 +23,26 @@ namespace MextFullStackSaas.Infrastructure.Services
 
         public async Task<bool> RemoveAsync(string key, CancellationToken cancellationToken)
         {
-            using var storage = await StorageClient.CreateAsync(_credential);
-            await storage.DeleteObjectAsync(BucketName, key, cancellationToken: cancellationToken);
-            return true;
+            try
+            {
+                // Create a new Google Cloud Storage client
+                using var storage = await StorageClient.CreateAsync(_credential);
+
+                // Delete the file from Google Cloud Storage
+                await storage.DeleteObjectAsync(BucketName, key, cancellationToken: cancellationToken);
+
+                return true;
+            }
+            catch (Google.GoogleApiException e) when (e.HttpStatusCode == HttpStatusCode.NotFound)
+            {
+                // Object doesn't exist, which could be considered a successful deletion
+                return true;
+            }
+            catch (Exception)
+            {
+                // Handle or log other exceptions as needed
+                return false;
+            }
         }
 
         public async  Task<bool> RemoveAsync(List<string> keys, CancellationToken cancellationToken)
