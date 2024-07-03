@@ -22,5 +22,7 @@ namespace MextFullStackSaas.Application.Common.Interfaces
         Task<UserAuthResetPasswordResponseDto> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken);
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
 
+        Task<bool> UpdateUserProfileAsync(UpdateUserProfileCommand command, CancellationToken cancellationToken);
+
     }
 }
