@@ -4,7 +4,9 @@ using MextFullStackSaas.Application.Common.Models.Auth;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Login;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.Register;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.SocialLogin;
+using MextFullStackSaas.Application.Features.UserAuth.Commands.Update;
 using MextFullStackSaas.Application.Features.UserAuth.Commands.VerifiyEmail;
+using MextFullStackSaas.Application.Features.Users.Queries.GetProfile;
 
 namespace MextFullStackSaas.Application.Common.Interfaces
 {
@@ -22,7 +24,7 @@ namespace MextFullStackSaas.Application.Common.Interfaces
         Task<UserAuthResetPasswordResponseDto> GeneratePasswordResetTokenAsync(string email, CancellationToken cancellationToken);
         Task<bool> ResetPasswordAsync(string email, string token, string newPassword);
 
-        Task<bool> UpdateUserProfileAsync(UpdateUserProfileCommand command, CancellationToken cancellationToken);
+        Task<UserGetProfileDto> GetProfileAsync( CancellationToken cancellationToken);
 
     }
 }

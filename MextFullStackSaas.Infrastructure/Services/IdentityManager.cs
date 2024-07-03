@@ -16,6 +16,8 @@ using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using MextFullStackSaas.Application.Features.UserAuth.Commands.Update;
+using MextFullStackSaas.Application.Features.Users.Queries.GetProfile;
 
 namespace MextFullStackSaas.Infrastructure.Services
 {
@@ -23,11 +25,15 @@ namespace MextFullStackSaas.Infrastructure.Services
     {
         private readonly IJwtService _jwtService;
         private readonly UserManager<User> _userManager;
-
-        public IdentityManager(IJwtService jwtService, UserManager<User> userManager)
+        private readonly ICurrentUserService _currentUserService;
+        private readonly IApplicationDbContext _applicationDbContext;
+        public IdentityManager(IJwtService jwtService, UserManager<User> userManager, ICurrentUserService currentUserService,IApplicationDbContext applicationDbContext)
         {
             _jwtService = jwtService;
             _userManager = userManager;
+            _currentUserService = currentUserService;
+            _applicationDbContext = applicationDbContext;
+            
         }
 
         public async Task<UserAuthRegisterResponseDto> RegisterAsync(UserAuthRegisterCommand command, CancellationToken cancellationToken)
@@ -115,5 +121,16 @@ namespace MextFullStackSaas.Infrastructure.Services
             var jwtDto = await _jwtService.GenerateTokenAsync(user.Id, user.Email, cancellationToken);
             return jwtDto;
         }
+
+        public async Task<UserGetProfileDto> GetProfileAsync(CancellationToken cancellationToken)
+        {
+            var user = await _userManager.FindByIdAsync(_currentUserService.UserId.ToString());
+
+            user.Balance = await _applicationDbContext.UserBalances.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == user.Id, cancellationToken);
+
+            return UserGetProfileDto.Map(user);
+
+        }
     }
-}
+    }
+
