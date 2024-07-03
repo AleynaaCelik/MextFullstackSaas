@@ -2,20 +2,22 @@
 using MextFullstackSaas.Domain.Enums;
 using MextFullStackSaas.Application.Common.Interfaces;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
 {
-    public class OrderAddCommandValidator:AbstractValidator<OrderAddCommand>
+    public class OrderAddCommandValidator : AbstractValidator<OrderAddCommand>
     {
         private readonly ICurrentUserService _currentUserService;
+        private readonly IApplicationDbContext _applicationDbContext;
 
-        public OrderAddCommandValidator(ICurrentUserService currentUserService)
+        public OrderAddCommandValidator(ICurrentUserService currentUserService, IApplicationDbContext applicationDbContext)
         {
             _currentUserService = currentUserService;
+            _applicationDbContext = applicationDbContext;
 
             RuleFor(x => x.IconDescription)
                 .NotEmpty()
@@ -51,10 +53,17 @@ namespace MextFullStackSaas.Application.Features.Orders.Commands.Add
             RuleFor(x => x.Size)
                 .Must(IsUserIdValid)
                 .WithMessage("You need to be logged-in to place an order.");
+
+            RuleFor(x => x).MustAsync(HasCreditsAsync).WithMessage("You need to have at least 1 credit to place an order.");
         }
 
         private bool IsUserIdValid(IconSize size) => _currentUserService.UserId != Guid.Empty;
 
-        // Minimum Viable Product
+        private async Task<bool> HasCreditsAsync(OrderAddCommand command, CancellationToken cancellationToken)
+        {
+            return await _applicationDbContext.UserBalances
+                .Where(x => x.UserId == _currentUserService.UserId)
+                .AnyAsync(x => x.Credits >= 1, cancellationToken);
+        }
     }
 }
