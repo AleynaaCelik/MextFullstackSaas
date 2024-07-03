@@ -35,7 +35,8 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             builder.Property(u => u.PhoneNumber).IsRequired(false);
             builder.Property(u => u.PhoneNumber).HasMaxLength(20);
 
-
+            builder.Property(u => u.ProfileImage).IsRequired(false);
+            builder.Property(u => u.ProfileImage).HasMaxLength(300);
             // The relationships between User and other entity types
             // Note that these relationships are configured with no navigation properties
 
