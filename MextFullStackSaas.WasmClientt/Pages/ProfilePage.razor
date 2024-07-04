@@ -1,9 +1,7 @@
 ﻿@page "/profile"
-@layout MainLayout
-@using MextFullstackSaaS.Application
-@using MextFullstackSaaS.Application.Features.UserProfile.Queries
-@using MextFullstackSaaS.Application.Common.Models
+@using MextFullStackSaas.Application.Features.Users.Queries.GetProfile
 @using Microsoft.AspNetCore.Components.Authorization
+@layout MainLayout
 @inject HttpClient HttpClient
 @inject AuthenticationStateProvider AuthStateProvider
 @inject NavigationManager NavigationManager
@@ -11,7 +9,7 @@
 <div class="flex items-center justify-center">
     <AuthorizeView>
         <Authorized>
-            @if (userProfile == null)
+            @if (userProfile is null)
             {
                 <Loading />
             }
@@ -34,7 +32,7 @@
                         <p>Credits: @userProfile.Credits</p>
                     </div>
 
-                    <div class="card-actions justify-center gap-8 mb-3">
+                    <div class="card-actions mb-3 justify-center gap-8 pb-2">
                         <button class="btn btn-warning">Buy Credits</button>
                         <button class="btn btn-info">Edit Profile</button>
                     </div>
@@ -48,11 +46,12 @@
 </div>
 
 @code {
-    private GetUserProfileDto userProfile;
+    private UserGetProfileDto userProfile;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthStateProvider.GetAuthenticationStateAsync();
+
         if (authState.User.Identity?.IsAuthenticated ?? false)
         {
             try
