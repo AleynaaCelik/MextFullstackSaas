@@ -1,5 +1,6 @@
 ﻿using MextFullstackSaas.Domain.Identity;
 using MextFullstackSaas.Domain.Settings;
+using MextFullstackSaaS.Infrastructure.Services;
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Infrastructure.Persistence.Contexts;
 using MextFullStackSaas.Infrastructure.Services;
@@ -54,6 +55,7 @@ namespace MextFullStackSaas.Infrastructure
             services.AddScoped<IIdentityService, IdentityManager>();
             services.AddScoped<IEmailService, ResendEmailManager>();
             services.AddScoped<IObjectStorageService, GoogleObjectStorageManager>();
+            services.AddScoped<IPaymentService, IyzicoPaymentManager>();
 
             //OpenAI
             services.AddOpenAIService(settings => settings.ApiKey = configuration.GetSection("OpenAIApiKey").Value!);

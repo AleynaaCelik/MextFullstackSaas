@@ -1,6 +1,7 @@
 ﻿using Iyzipay.Model;
 using Iyzipay.Request;
 using MextFullstackSaas.Domain.Settings;
+
 using MextFullStackSaas.Application.Common.Interfaces;
 using Microsoft.Extensions.Options;
 using Options = Iyzipay.Options;
@@ -21,7 +22,6 @@ namespace MextFullstackSaaS.Infrastructure.Services
             };
         }
 
-       
         public async Task<object> CreateCheckOutFromAsync(CancellationToken cancellationToken)
         {
             var conversationId = "123456789";
@@ -35,7 +35,7 @@ namespace MextFullstackSaaS.Infrastructure.Services
                 Currency = Currency.TRY.ToString(),
                 BasketId = "B123456",
                 PaymentGroup = PaymentGroup.PRODUCT.ToString(),
-                CallbackUrl = $"http://localhost:5262/payment-success?conversationId={conversationId}"
+                CallbackUrl = $"http://localhost:7030/Payment/payment-result"
             };
 
             List<int> enabledInstallments = new List<int>();
@@ -66,16 +66,6 @@ namespace MextFullstackSaaS.Infrastructure.Services
             };
             request.Buyer = buyer;
 
-            Address shippingAddress = new Address
-            {
-                ContactName = "Jane Doe",
-                City = "Istanbul",
-                Country = "Turkey",
-                Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
-                ZipCode = "34742"
-            };
-            request.ShippingAddress = shippingAddress;
-
             Address billingAddress = new Address
             {
                 ContactName = "Jane Doe",
@@ -87,12 +77,14 @@ namespace MextFullstackSaaS.Infrastructure.Services
             request.BillingAddress = billingAddress;
 
             List<BasketItem> basketItems = new List<BasketItem>();
+
             BasketItem firstBasketItem = new BasketItem
             {
                 Id = "BI101",
                 Name = "IconBuilderAI 10 credits",
                 ItemType = BasketItemType.VIRTUAL.ToString(),
-                Price = "100"
+                Price = "100",
+                Category1="Credits"
             };
             basketItems.Add(firstBasketItem);
 
