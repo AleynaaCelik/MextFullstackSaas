@@ -24,7 +24,7 @@ namespace MextFullStackSaas.Infrastructure
 
             services.Configure<JwtSettings>(JwtSettings=>configuration.GetSection("JwtSettings").Bind(JwtSettings));
             services.Configure<GoogleSettings>(googleSettings=>configuration.GetSection("GoogleSettings").Bind(googleSettings));
-
+            services.Configure<IyzicoSettings>(iyzicosettings => configuration.GetSection("IyzicoSettings").Bind(iyzicosettings));
             services.AddIdentity<User, Role>(options =>
             {
                 options.Password.RequireDigit = false;
