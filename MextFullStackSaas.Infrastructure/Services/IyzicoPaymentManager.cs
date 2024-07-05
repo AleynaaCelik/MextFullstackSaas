@@ -12,8 +12,9 @@ namespace MextFullstackSaaS.Infrastructure.Services
     public class IyzicoPaymentManager : IPaymentService
     {
         private readonly Options _options;
+        private readonly ICurrentUserService _currentUserService;
 
-        public IyzicoPaymentManager(IOptions<IyzicoSettings> settings)
+        public IyzicoPaymentManager(IOptions<IyzicoSettings> settings, ICurrentUserService currentUserService)
         {
             _options = new Options
             {
@@ -21,6 +22,7 @@ namespace MextFullstackSaaS.Infrastructure.Services
                 SecretKey = settings.Value.SecretKey,
                 BaseUrl = settings.Value.BaseUrl
             };
+            _currentUserService = currentUserService;
         }
         private const int OneCreditPrice = 10;
         private const string CallBackUrl = "http://localhost:7030/Payment/payment-result";
@@ -29,12 +31,13 @@ namespace MextFullstackSaaS.Infrastructure.Services
         {
             var price = userrequest.Credits * OneCreditPrice;
             var paidPrice = price;
+            var conservationId = Guid.NewGuid().ToString();
             var basketId = Guid.NewGuid();
 
             CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest
             {
                 Locale = Locale.TR.ToString(),
-                ConversationId = "123456789",
+                ConversationId = conservationId,
                 Price = "100",
                 PaidPrice = "100",
                 Currency = Currency.TRY.ToString(),
@@ -55,15 +58,15 @@ namespace MextFullstackSaaS.Infrastructure.Services
 
             Buyer buyer = new Buyer
             {
-                Id = "BY789",
-                Name = "Alper",
-                Surname = "Tunga",
-                GsmNumber = "+905350000000",
-                Email = "email@email.com",
+                Id = _currentUserService.UserId.ToString(),
+                Name = userrequest.PaymentDetail.FirstName,
+                Surname = userrequest.PaymentDetail.LastName,
+                GsmNumber = userrequest.PaymentDetail.PhoneNumber,
+                Email = userrequest.PaymentDetail.Email,
                 IdentityNumber = "74300864791",
-                LastLoginDate = "2015-10-05 12:43:35",
+                LastLoginDate = userrequest.PaymentDetail.LastLoginDate.ToString(),
                 RegistrationDate = "2013-04-21 15:12:09",
-                RegistrationAddress = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                RegistrationAddress = userrequest.PaymentDetail.Address,
                 Ip = "85.34.78.112",
                 City = "Istanbul",
                 Country = "Turkey",
@@ -73,10 +76,10 @@ namespace MextFullstackSaaS.Infrastructure.Services
 
             Address billingAddress = new Address
             {
-                ContactName = "Jane Doe",
+                ContactName = $"{userrequest.PaymentDetail.FirstName}{userrequest.PaymentDetail.LastName}",
                 City = "Istanbul",
                 Country = "Turkey",
-                Description = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                Description = userrequest.PaymentDetail.Address,
                 ZipCode = "34742"
             };
             request.BillingAddress = billingAddress;
@@ -86,9 +89,9 @@ namespace MextFullstackSaaS.Infrastructure.Services
             BasketItem firstBasketItem = new BasketItem
             {
                 Id = "BI101",
-                Name = "IconBuilderAI 10 credits",
+                Name = $"IconBuilderAI {userrequest.Credits} credits",
                 ItemType = BasketItemType.VIRTUAL.ToString(),
-                Price = "100",
+                Price = paidPrice.ToString(),
                 Category1="Credits"
             };
             basketItems.Add(firstBasketItem);
