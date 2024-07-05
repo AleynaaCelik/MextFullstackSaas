@@ -18,7 +18,7 @@ namespace MextFullstackSaas.Domain.Entities
         public decimal Price { get; set; }
         public decimal PaidPrice { get; set; }
         public CurrencyCode CurrencyCode { get; set; }
-        public string Ip { get; set; }
+        //public string Ip { get; set; }
         public  PaymentStatus Status { get; set; }
 
         public  Guid UserId { get; set; }
@@ -28,7 +28,7 @@ namespace MextFullstackSaas.Domain.Entities
         public  decimal? RefundedAmount { get; set; }
 
         public UserPaymentDetail UserPaymentDetail { get; set; }
-        public ICollection<UserPaymentHistory> History { get; set; }
+        public ICollection<UserPaymentHistory> Histories { get; set; }
 
 
     }

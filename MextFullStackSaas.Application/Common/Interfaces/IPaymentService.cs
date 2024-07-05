@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MextFullStackSaas.Application.Common.Models.Payments;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace MextFullStackSaas.Application.Common.Interfaces
 {
     public  interface IPaymentService
     {
-        Task<object> CreateCheckOutFromAsync(CancellationToken cancellationToken);
+        Task<object> CreateCheckOutFromAsync(PaymentCreateCheckoutFormRequest  userrequest,CancellationToken cancellationToken);
     }
 }

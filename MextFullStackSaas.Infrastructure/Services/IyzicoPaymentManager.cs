@@ -3,6 +3,7 @@ using Iyzipay.Request;
 using MextFullstackSaas.Domain.Settings;
 
 using MextFullStackSaas.Application.Common.Interfaces;
+using MextFullStackSaas.Application.Common.Models.Payments;
 using Microsoft.Extensions.Options;
 using Options = Iyzipay.Options;
 
@@ -21,10 +22,14 @@ namespace MextFullstackSaaS.Infrastructure.Services
                 BaseUrl = settings.Value.BaseUrl
             };
         }
+        private const int OneCreditPrice = 10;
+        private const string CallBackUrl = "http://localhost:7030/Payment/payment-result";
 
-        public async Task<object> CreateCheckOutFromAsync(CancellationToken cancellationToken)
+        public async Task<object> CreateCheckOutFromAsync(PaymentCreateCheckoutFormRequest userrequest, CancellationToken cancellationToken)
         {
-            var conversationId = "123456789";
+            var price = userrequest.Credits * OneCreditPrice;
+            var paidPrice = price;
+            var basketId = Guid.NewGuid();
 
             CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest
             {
@@ -35,7 +40,7 @@ namespace MextFullstackSaaS.Infrastructure.Services
                 Currency = Currency.TRY.ToString(),
                 BasketId = "B123456",
                 PaymentGroup = PaymentGroup.PRODUCT.ToString(),
-                CallbackUrl = $"http://localhost:7030/Payment/payment-result"
+                CallbackUrl = CallBackUrl
             };
 
             List<int> enabledInstallments = new List<int>();

@@ -24,7 +24,7 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             // Limit the size of columns to use efficient database types
             builder.Property(u => u.UserName).HasMaxLength(100);
             builder.Property(u => u.NormalizedUserName).HasMaxLength(100);
-            
+
             //Email
             builder.Property(u => u.Email).IsRequired();
             builder.HasIndex(user => user.Email).IsUnique();
@@ -35,8 +35,11 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             builder.Property(u => u.PhoneNumber).IsRequired(false);
             builder.Property(u => u.PhoneNumber).HasMaxLength(20);
 
+            //PhoneNumber
             builder.Property(u => u.ProfileImage).IsRequired(false);
             builder.Property(u => u.ProfileImage).HasMaxLength(300);
+
+
             // The relationships between User and other entity types
             // Note that these relationships are configured with no navigation properties
 
@@ -53,19 +56,32 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             builder.HasMany<UserRole>().WithOne().HasForeignKey(ur => ur.UserId).IsRequired();
 
             // Each User can have many Orders
-            builder.HasMany<Order>(x=>x.Orders).WithOne(o=>o.User).HasForeignKey(x => x.UserId);
+            builder.HasMany<Order>(x => x.Orders)
+                .WithOne(o => o.User)
+                .HasForeignKey(x => x.UserId);
+            // Each User can have many Payments
+            builder.HasMany<UserPayment>(x => x.Payments)
+                .WithOne(p => p.User)
+                .HasForeignKey(x => x.UserId);
+
+            // Common Properties
 
             // CreatedDate
             builder.Property(x => x.CreatedOn).IsRequired();
 
             // CreatedByUserId
-            builder.Property(user => user.CreatedByUserId).HasMaxLength(100).IsRequired();
+            builder.Property(user => user.CreatedByUserId)
+                .HasMaxLength(100)
+                .IsRequired();
 
             // ModifiedDate
-            builder.Property(user => user.ModifiedOn).IsRequired(false);
+            builder.Property(user => user.ModifiedOn)
+                .IsRequired(false);
 
             // ModifiedByUserId
-            builder.Property(user => user.ModifiedByUserId).HasMaxLength(100).IsRequired(false);
+            builder.Property(user => user.ModifiedByUserId)
+                .HasMaxLength(100)
+                .IsRequired(false);
 
 
             builder.ToTable("Users");

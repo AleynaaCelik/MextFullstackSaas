@@ -1,4 +1,5 @@
 ﻿using MextFullstackSaas.Domain.Identity;
+using MextFullstackSaas.Domain.ValueObjects;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +19,6 @@ namespace MextFullStackSaas.Application.Features.Users.Queries.GetProfile
         public string PhoneNumber { get; set; }
 
 
-
         public static UserGetProfileDto Map(User user)
         {
             return new UserGetProfileDto
@@ -32,5 +32,25 @@ namespace MextFullStackSaas.Application.Features.Users.Queries.GetProfile
                 PhoneNumber = user.PhoneNumber
             };
         }
+
+
+        public UserPaymentDetail MapToPaymentDetail()
+        {
+            return new UserPaymentDetail
+            {
+                FirstName = FirstName,
+                LastName = LastName,
+                Email = Email,
+                PhoneNumber = PhoneNumber,
+                Address = "Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1",
+                IdentityNumber = "74300864791",
+                LastLoginDate = DateTimeOffset.Now.AddMinutes(-2),
+                Ip = "85.34.78.112",
+                City = "Istanbul",
+                Country = "Turkey",
+                ZipCode = "34732"
+            };
+        }
+
     }
 }
