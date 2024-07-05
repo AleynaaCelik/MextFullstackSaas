@@ -25,7 +25,7 @@ try
 
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddSerilog(); // <-- Add this line Serilog
+    builder.Host.UseSerilog(); // <-- Add this line Serilog
 
     // Add services to the container.
 

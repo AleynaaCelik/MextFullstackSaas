@@ -8,5 +8,15 @@ namespace MextFullStackSaas.Application.Features.Payments.Commands.CreatePayment
 {
     public class PaymentCreatePaymentFormDto
     {
+        public PaymentCreatePaymentFormDto()
+        {
+        }
+
+        public PaymentCreatePaymentFormDto(string paymentPageUrl)
+        {
+            PaymentPageUrl = paymentPageUrl;
+        }
+
+        public  string PaymentPageUrl { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using MextFullstackSaas.Domain.Entities;
 using MextFullstackSaas.Domain.ValueObjects;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -20,11 +21,6 @@ namespace MextFullstackSaaS.Infrastructure.Persistence.Configurations
             // ID
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
-
-            // ConversationId
-            builder.Property(x => x.ConversationId)
-                .HasMaxLength(100)
-                .IsRequired();
 
             // BasketId
             builder.Property(x => x.BasketId)

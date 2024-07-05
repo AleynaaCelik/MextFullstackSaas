@@ -1,7 +1,6 @@
 ﻿using Iyzipay.Model;
 using Iyzipay.Request;
 using MextFullstackSaas.Domain.Settings;
-
 using MextFullStackSaas.Application.Common.Interfaces;
 using MextFullStackSaas.Application.Common.Models.Payments;
 using Microsoft.Extensions.Options;
@@ -27,17 +26,33 @@ namespace MextFullstackSaaS.Infrastructure.Services
         private const int OneCreditPrice = 10;
         private const string CallBackUrl = "http://localhost:7030/Payment/payment-result";
 
-        public async Task<object> CreateCheckOutFromAsync(PaymentCreateCheckoutFormRequest userrequest, CancellationToken cancellationToken)
+
+        private PaymentCreateCheckoutFormResponse MapCheckoutFormInitializeResponse(CheckoutFormInitialize checkoutFormInitialize, decimal price, decimal paidPrice, string conversationId, string basketId)
         {
-            var price = userrequest.Credits * OneCreditPrice;
+            return new PaymentCreateCheckoutFormResponse
+            {
+                Price = price,
+                PaidPrice = paidPrice,
+                ConversationId = conversationId,
+                BasketId = basketId,
+                Token = checkoutFormInitialize.Token,
+                TokenExpireTime = checkoutFormInitialize.TokenExpireTime,
+                CheckoutFormContent = checkoutFormInitialize.CheckoutFormContent,
+                PaymentPageUrl = checkoutFormInitialize.PaymentPageUrl
+            };
+        }
+
+        public PaymentCreateCheckoutFormResponse CreateCheckoutForm(PaymentCreateCheckoutFormRequest userRequest)
+        {
+            var price = userRequest.Credits * OneCreditPrice;
             var paidPrice = price;
-            var conservationId = Guid.NewGuid().ToString();
-            var basketId = Guid.NewGuid();
+            var conversationId = Guid.NewGuid().ToString();
+            var basketId = Guid.NewGuid().ToString(); // Guid'i string'e dönüştürmek için ToString() metodunu kullanın
 
             CreateCheckoutFormInitializeRequest request = new CreateCheckoutFormInitializeRequest
             {
                 Locale = Locale.TR.ToString(),
-                ConversationId = conservationId,
+                ConversationId = conversationId,
                 Price = "100",
                 PaidPrice = "100",
                 Currency = Currency.TRY.ToString(),
@@ -49,9 +64,7 @@ namespace MextFullstackSaaS.Infrastructure.Services
             List<int> enabledInstallments = new List<int>();
 
             enabledInstallments.Add(3);
-
             enabledInstallments.Add(6);
-
             enabledInstallments.Add(9);
 
             request.EnabledInstallments = enabledInstallments;
@@ -59,14 +72,14 @@ namespace MextFullstackSaaS.Infrastructure.Services
             Buyer buyer = new Buyer
             {
                 Id = _currentUserService.UserId.ToString(),
-                Name = userrequest.PaymentDetail.FirstName,
-                Surname = userrequest.PaymentDetail.LastName,
-                GsmNumber = userrequest.PaymentDetail.PhoneNumber,
-                Email = userrequest.PaymentDetail.Email,
+                Name = userRequest.PaymentDetail.FirstName,
+                Surname = userRequest.PaymentDetail.LastName,
+                GsmNumber = userRequest.PaymentDetail.PhoneNumber,
+                Email = userRequest.PaymentDetail.Email,
                 IdentityNumber = "74300864791",
-                LastLoginDate = userrequest.PaymentDetail.LastLoginDate.ToString(),
+                LastLoginDate = userRequest.PaymentDetail.LastLoginDate.ToString(),
                 RegistrationDate = "2013-04-21 15:12:09",
-                RegistrationAddress = userrequest.PaymentDetail.Address,
+                RegistrationAddress = userRequest.PaymentDetail.Address,
                 Ip = "85.34.78.112",
                 City = "Istanbul",
                 Country = "Turkey",
@@ -76,10 +89,10 @@ namespace MextFullstackSaaS.Infrastructure.Services
 
             Address billingAddress = new Address
             {
-                ContactName = $"{userrequest.PaymentDetail.FirstName}{userrequest.PaymentDetail.LastName}",
+                ContactName = $"{userRequest.PaymentDetail.FirstName}{userRequest.PaymentDetail.LastName}",
                 City = "Istanbul",
                 Country = "Turkey",
-                Description = userrequest.PaymentDetail.Address,
+                Description = userRequest.PaymentDetail.Address,
                 ZipCode = "34742"
             };
             request.BillingAddress = billingAddress;
@@ -89,10 +102,10 @@ namespace MextFullstackSaaS.Infrastructure.Services
             BasketItem firstBasketItem = new BasketItem
             {
                 Id = "BI101",
-                Name = $"IconBuilderAI {userrequest.Credits} credits",
+                Name = $"IconBuilderAI {userRequest.Credits} credits",
                 ItemType = BasketItemType.VIRTUAL.ToString(),
                 Price = paidPrice.ToString(),
-                Category1="Credits"
+                Category1 = "Credits"
             };
             basketItems.Add(firstBasketItem);
 
@@ -100,7 +113,7 @@ namespace MextFullstackSaaS.Infrastructure.Services
 
             CheckoutFormInitialize checkoutFormInitialize = CheckoutFormInitialize.Create(request, _options);
 
-            return checkoutFormInitialize;
+            return MapCheckoutFormInitializeResponse(checkoutFormInitialize, price, paidPrice, conversationId, basketId);
         }
     }
 }

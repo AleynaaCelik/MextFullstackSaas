@@ -9,6 +9,6 @@ namespace MextFullStackSaas.Application.Common.Interfaces
 {
     public  interface IPaymentService
     {
-        Task<object> CreateCheckOutFromAsync(PaymentCreateCheckoutFormRequest  userrequest,CancellationToken cancellationToken);
+        PaymentCreateCheckoutFormResponse CreateCheckoutForm(PaymentCreateCheckoutFormRequest userRequest);
     }
 }
